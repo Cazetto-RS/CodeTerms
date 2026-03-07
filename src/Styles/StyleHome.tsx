@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  svgBar: {},
   image: {
     width: "45%",
     resizeMode: "contain",
@@ -20,10 +21,19 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     width: "87%",
+    color: Colors.subtext,
+    borderWidth: 0, 
+    outlineWidth: 0,
+    padding: 0,
+  },
+  searchDiv: {
+    width: "87%",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
     padding: 15,
     backgroundColor: Colors.gray,
     borderRadius: 5,
-    color: Colors.subtext,
     marginTop: -15,
     marginBottom: 15,
   },
@@ -52,6 +62,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
+    fontWeight: "300",
     color: Colors.subtext,
   },
   description: {
@@ -78,7 +89,7 @@ const styles = StyleSheet.create({
   TermsDiv: {
     width: "95%",
     backgroundColor: Colors.black_gray,
-    height: 200,
+    height: "auto",
     borderRadius: 5,
     paddingHorizontal: 25,
     paddingVertical: 20,
