@@ -1,0 +1,88 @@
+import { StyleSheet } from "react-native";
+import { Colors } from "./colorsBase";
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+    alignItems: "center",
+  },
+  navBarDiv: {
+    width: "100%",
+    backgroundColor: Colors.black_gray,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    width: "45%",
+    resizeMode: "contain",
+    marginTop: -15,
+  },
+  searchInput: {
+    width: "87%",
+    padding: 15,
+    backgroundColor: Colors.gray,
+    borderRadius: 5,
+    color: Colors.subtext,
+    marginTop: -15,
+    marginBottom: 15,
+  },
+  border: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.light_grayBorder,
+  },
+  content: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    padding: 20,
+  },
+  titleDiv: {
+    width: "95%",
+    alignItems: "flex-start",
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.light_grayBorder,
+    paddingBottom: 5,
+  },
+  title: {
+    fontSize: 20,
+    color: Colors.text,
+    fontWeight: "500",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: Colors.subtext,
+  },
+  description: {
+    fontSize: 17,
+    color: Colors.text,
+    marginVertical: 17,
+  },
+  moreDiv: {
+    width: "100%",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: Colors.light_grayBorder,
+  },
+  more: {
+    fontSize: 17,
+    color: Colors.primary,
+    marginTop: 10,
+    cursor: "pointer",
+  },
+  Terms_MainDiv: {
+    width: "100%",
+    alignItems: "center",
+  },
+  TermsDiv: {
+    width: "95%",
+    backgroundColor: Colors.black_gray,
+    height: 200,
+    borderRadius: 5,
+    paddingHorizontal: 25,
+    paddingVertical: 20,
+  },
+});
+
+export default styles;
