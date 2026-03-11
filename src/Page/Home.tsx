@@ -1,10 +1,14 @@
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, useWindowDimensions } from "react-native";
 import ModalTermos from "./ModalTermos";
 import React, { useEffect, useState } from "react";
 import { TermsService } from "../server/apiService.js";
-import styles from "../Styles/StyleHome";
+// import styles from "../Styles/StyleHome";
+import {getStyles} from "../Styles/StyleHome";
 
 export default function () {
+  const {width} = useWindowDimensions();
+  const styles = getStyles(width);
+
   const [termos, setTermos] = useState([]);
   const [busca, setBusca] = useState("");
 
@@ -49,7 +53,7 @@ export default function () {
   return (
     <View style={styles.container}>
       <View style={styles.navBarDiv}>
-        <Image source={require("../../assets/Logo.png")} style={styles.image} />
+        <Image source={require("../../assets/Logo.png")} resizeMode="contain" style={styles.image} />
         <View style={[styles.searchDiv, styles.border]}>
           <TextInput
             style={styles.searchInput}
