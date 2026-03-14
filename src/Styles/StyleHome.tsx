@@ -1,4 +1,4 @@
-import { StyleSheet, Platform,  } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors } from "./colorsBase";
 
 export const getStyles = (width) => {
@@ -8,7 +8,6 @@ export const getStyles = (width) => {
     container: {
       flex: 1,
       backgroundColor: Colors.background,
-      alignItems: "center",
     },
     navBarDiv: {
       width: "100%",
@@ -17,7 +16,7 @@ export const getStyles = (width) => {
       justifyContent: "center",
       flexDirection: isWeb ? "row" : "column",
       gap: isWeb ? 30 : 0,
-      paddingVertical: isWeb ? 10 : 0,
+      paddingVertical: isWeb ? 0 : 0,
     },
     svgBar: {},
     image: {
@@ -31,7 +30,7 @@ export const getStyles = (width) => {
       ...Platform.select({
         web: {
           outlineWidth: 0,
-        }
+        },
       }),
       padding: 0,
     },
@@ -93,16 +92,22 @@ export const getStyles = (width) => {
     },
     Terms_MainDiv: {
       width: "100%",
-      alignItems: "center",
+      flexDirection: "row", // Permite que os itens fiquem lado a lado
+      flexWrap: "wrap", // Faz os itens "pularem" para a linha de baixo
+      justifyContent: isWeb ? "flex-start" : "center", // Alinha à esquerda no PC
+      paddingHorizontal: isWeb ? "2.5%" : 0, // Compensa as margens laterais no PC
     },
     TermsDiv: {
-      width: "95%",
+      // Se for Web, 30% garante 3 por linha com espaçamento. Se for Mobile, 95%.
+      width: isWeb ? "31%" : "95%",
       backgroundColor: Colors.black_gray,
       height: "auto",
       borderRadius: 5,
       paddingHorizontal: 25,
       paddingVertical: 20,
+      // Adicione margem lateral no PC para eles não colarem um no outro
+      marginHorizontal: isWeb ? "1%" : 0,
+      marginBottom: 15,
     },
   });
-
-}
+};
