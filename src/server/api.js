@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 const POSSIBLE_URLS = [
-  'http://localhost:3000',
-  'http://10.0.2.2:3000', 
-  'http://192.168.0.103:3000'
+    'https://codeterms-back.onrender.com'
 ];
 
 const getActiveRoute = async () => {
@@ -20,7 +18,7 @@ const getActiveRoute = async () => {
 }
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.103:3000', // Ou seu IP
+  baseURL: 'https://codeterms-back.onrender.com', // Ou seu IP
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
