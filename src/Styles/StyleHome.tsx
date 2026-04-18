@@ -109,5 +109,21 @@ export const getStyles = (width) => {
       marginHorizontal: isWeb ? "1%" : 0,
       marginBottom: 15,
     },
+    BotaoPagina: {
+      color: "#299CD5",
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+    TextoPaginacao: {
+      color: "white",
+      fontWeight: "bold",
+    },
+    Paginacao: {
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+      minWidth: 40,
+      alignItems: "center",
+      borderRadius: 5,
+    },
   });
 };
