@@ -78,8 +78,7 @@ export const getStyles = (width: number) => {
       borderRadius: 8,
       backgroundColor: bgSecondary,
       alignItems: "center",
-      justifyContent: "center",
-      marginLeft: 4,
+      justifyContent: "center"
     },
 
     // ─── Divisória ───────────────────────────────────────────────────────────
@@ -202,7 +201,10 @@ export const getStyles = (width: number) => {
       backgroundColor: "#FEF1EE",
     },
     tagTextAntonimo: {
-      color: textSecondary,
+      color: "#611301",
+    },
+    tagTextSinonimo: {
+      color: "#045a9c",
     },
 
     // ─── Imagem ───────────────────────────────────────────────────────────────
@@ -210,13 +212,48 @@ export const getStyles = (width: number) => {
       borderRadius: 10,
       overflow: "hidden",
       backgroundColor: bgSecondary,
+      cursor: "pointer",
     },
     image: {
       width: "100%",
       aspectRatio: 16 / 9,
       maxHeight: isWeb ? 280 : 200,
     },
-
+    imagemLupa: {
+      position: "absolute",
+      bottom: 10,
+      right: 10,
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      backgroundColor: "rgba(0,0,0,0.45)",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    // Overlay do modal de imagem ampliada
+    imagemOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.92)",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    // Imagem em tela cheia
+    imagemAmpliada: {
+      width: isWeb ? "70%" : "100%",
+      height: isWeb ? "80%" : "60%",
+    },
+    // Botão de fechar flutuante
+    imagemFecharBtn: {
+      position: "absolute",
+      top: 20,
+      right: 20,
+      width: 38,
+      height: 38,
+      borderRadius: 19,
+      backgroundColor: "rgba(255,255,255,0.15)",
+      alignItems: "center",
+      justifyContent: "center",
+    },
     // Utilitário (mantido para compatibilidade)
     border: {
       borderWidth: 1,

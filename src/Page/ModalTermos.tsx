@@ -7,7 +7,7 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { getStyles } from "../Styles/StyleModalTermos";
 import * as Clipboard from "expo-clipboard";
 import * as Speech from "expo-speech";
@@ -34,7 +34,7 @@ const CopyIcon = () => (
     <path
       opacity="0.5"
       d="M0.7618 0.7618C-7.7486e-08 1.52295 0 2.74885 0 5.2V6.5C0 8.95115 -7.7486e-08 10.177 0.7618 10.9382C1.16285 11.3399 1.69325 11.5297 2.4648 11.6194C2.34 11.0734 2.34 10.322 2.34 9.2404V6.10805C2.34 4.33615 2.34 3.4502 2.88795 2.89965C3.43655 2.3491 4.3186 2.3491 6.084 2.3491H7.956C9.0298 2.3491 9.776 2.3491 10.3207 2.4726C10.231 1.69715 10.0412 1.1648 9.6382 0.7618C8.87705 -7.7486e-08 7.65115 0 5.2 0C2.74885 0 1.52295 -7.7486e-08 0.7618 0.7618Z"
-      fill="#3A3E47"
+      fill="#8A8FA3"
     />
   </svg>
 );
@@ -70,6 +70,7 @@ const Secao = ({
 export default function ModalTermos({ visivel, fechar, termo }) {
   const { width } = useWindowDimensions();
   const styles = getStyles(width);
+  const [imagemAmpliada, setImagemAmpliada] = useState(false);
 
   if (!termo) return null;
 
@@ -166,6 +167,60 @@ export default function ModalTermos({ visivel, fechar, termo }) {
               <Text style={styles.traducaoTexto}>{termo.traducao}</Text>
             </View>
 
+              {/* Imagem */}
+            {termo.imagem ? (
+              <>
+                {/* Modal de imagem em tela cheia */}
+                <Modal
+                  visible={imagemAmpliada}
+                  animationType="fade"
+                  transparent={true}
+                  onRequestClose={() => setImagemAmpliada(false)}
+                >
+                  <TouchableOpacity
+                    style={styles.imagemOverlay}
+                    activeOpacity={1}
+                    onPress={() => setImagemAmpliada(false)}
+                  >
+                    <Image
+                      source={{ uri: termo.imagem }}
+                      style={styles.imagemAmpliada}
+                      resizeMode="contain"
+                    />
+                    <View style={styles.imagemFecharBtn}>
+                      <CloseIcon />
+                    </View>
+                  </TouchableOpacity>
+                </Modal>
+
+                {/* Thumbnail clicável no modal principal */}
+                <Secao label="" styles={styles}>
+                  <TouchableOpacity
+                    onPress={() => setImagemAmpliada(true)}
+                    activeOpacity={0.85}
+                    style={styles.imagemContainer}
+                  >
+                    <Image
+                      source={{ uri: termo.imagem }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                    {/* Ícone de lupa sobre a imagem */}
+                    <View style={styles.imagemLupa}>
+                      <svg
+                        width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
+                      >
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.35-4.35" />
+                        <path d="M11 8v6M8 11h6" />
+                      </svg>
+                    </View>
+                  </TouchableOpacity>
+                </Secao>
+              </>
+            ) : null}
+
             <Secao label="Descrição" styles={styles}>
               <Text style={styles.textoSecao}>{termo.definicao}</Text>
             </Secao>
@@ -177,13 +232,11 @@ export default function ModalTermos({ visivel, fechar, termo }) {
             )}
 
             {temSinonimos && (
-              <Secao label="Antônimos" styles={styles}>
+              <Secao label="Sinônimos" styles={styles}>
                 <View style={styles.tagRow}>
-                  {termo.sinonimos.map((a: string, i: number) => (
-                    <View key={i} style={[styles.tag, styles.tagAntonimo]}>
-                      <Text style={[styles.tagText, styles.tagTextAntonimo]}>
-                        {a}
-                      </Text>
+                  {termo.sinonimos.map((s: string, i: number) => (
+                    <View key={i} style={styles.tag}>
+                      <Text style={[styles.tagText, styles.tagTextSinonimo]}>{s}</Text>
                     </View>
                   ))}
                 </View>
@@ -203,18 +256,6 @@ export default function ModalTermos({ visivel, fechar, termo }) {
                 </View>
               </Secao>
             )}
-
-            {termo.imagem ? (
-              <Secao label="Imagem" styles={styles}>
-                <View style={styles.imagemContainer}>
-                  <Image
-                    source={{ uri: termo.imagem }}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                </View>
-              </Secao>
-            ) : null}
 
             <View style={{ height: 20 }} />
           </ScrollView>
