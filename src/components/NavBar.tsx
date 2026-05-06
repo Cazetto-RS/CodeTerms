@@ -105,20 +105,18 @@ export default function Navbar({ paginaAtiva, onNavegar }: NavbarProps) {
             </View>
 
             <View style={styles.DivNavBarPag}>
-            <Text style={styles.navBarPag} onPress={() => handlePress("Home")}>
+            <Text style={[styles.navBarPag, paginaAtiva === "Home" && styles.navBarPagAtivo]} onPress={() => onNavegar("Home")}>
                 Home
             </Text>
             <Text
-                style={styles.navBarPag}
-                onPress={() => handlePress("Sobre")}
+                style={[styles.navBarPag, paginaAtiva === "Sobre" && styles.navBarPagAtivo]}
+                onPress={() => onNavegar("Sobre")}
             >
                 Sobre
             </Text>
             <Text
-                style={styles.navBarPag}
-                onPress={() =>
-                handlePress("https://www.lardonatoflores.com/perfil")
-                }
+                style={[styles.navBarPag, paginaAtiva === "Perfil" && styles.navBarPagAtivo]}
+                onPress={() => onNavegar("Perfil")}
             >
                 Perfil
             </Text>
