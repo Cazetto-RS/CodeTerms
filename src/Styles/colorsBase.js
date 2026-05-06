@@ -7,7 +7,7 @@ export const Colors = {
   navBar: "#FFFFFF",
   gray: "#E7E7E7",
   light_gray: "#c0c0c0",
-  light_grayBorder: "#A5AAB6",
+  light_grayBorder: "#a5aab65d",
   black: "#131417",
 
   text: "#131417",
