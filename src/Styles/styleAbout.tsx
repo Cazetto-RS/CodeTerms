@@ -49,7 +49,7 @@ export const getStyles = (width: number) => {
       fontWeight: "600",
     },
     heroTitle: {
-      fontSize: isWeb ? 72 : 34,
+      fontSize: isWeb ? 72 : 44,
       fontWeight: "800",
       color: Colors.dark,
       lineHeight: isWeb ? 70 : 44,
@@ -58,7 +58,7 @@ export const getStyles = (width: number) => {
     },
     heroTitleBlue: {
       color: Colors.primary,
-      fontSize: isWeb ? 92 : 34,
+      fontSize: isWeb ? 92 : 44,
     },
     heroSubtitle: {
       fontSize: isWeb ? 18 : 15,

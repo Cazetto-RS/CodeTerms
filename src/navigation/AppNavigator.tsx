@@ -4,8 +4,10 @@ import Navbar from "../components/NavBar";
 import Home from "../Page/Home";
 import About from "../Page/About";
 import Profile from "../Page/Profile";
+import Login from "../Page/Login";
+import Cadastro from "../Page/Cadastro";
 
-type Page = "Home" | "Sobre" | "Perfil";
+type Page = "Home" | "Sobre" | "Perfil" | "Login" | "Cadastro";
 
 export default function AppNavigator() {
   const [paginaAtiva, setPaginaAtiva] = useState<Page>("Home");
@@ -14,7 +16,9 @@ export default function AppNavigator() {
     switch (paginaAtiva) {
       case "Home":   return <Home />;
       case "Sobre":  return <About />;
-      case "Perfil": return <Profile />;
+      case "Perfil": return <Profile onNavegar={setPaginaAtiva}/>;
+      case "Login":  return <Login onNavegar={setPaginaAtiva}/>;
+      case "Cadastro": return <Cadastro onNavegar={setPaginaAtiva}/>;
     }
   };
 

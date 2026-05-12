@@ -3,7 +3,7 @@ export const Colors = {
   secondary: "#066899",
   third: "#01476B",
 
-  background: "#FFFFFF",
+  background: "#F5F7FA",
   navBar: "#FFFFFF",
   gray: "#E7E7E7",
   light_gray: "#c0c0c0",
