@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from "react-native";
+import {
+  View, Text, TextInput, TouchableOpacity,
+  ScrollView, useWindowDimensions, ActivityIndicator,
+} from "react-native";
 import { getStyles } from "../Styles/styleAuth";
+import { AuthService, loadSession } from "../server/authService";
 
 const LockIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="#1A80B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 24, height: 24 }}>
@@ -21,21 +25,48 @@ const EyeIcon = ({ visible }: { visible: boolean }) => visible ? (
   </svg>
 );
 
-export default function Login({ onNavegar }: { onNavegar: (pagina: any) => void }) {
+export default function Login({ onNavegar }: { onNavegar: (pagina: any, user?: any) => void }) {
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail]               = useState("");
+  const [senha, setSenha]               = useState("");
   const [senhaVisivel, setSenhaVisivel] = useState(false);
+  const [loading, setLoading]           = useState(false);
+  const [erro, setErro]                 = useState("");
+
+  const handleLogin = async () => {
+    setErro("");
+    if (!email || !senha) { setErro("Preencha e-mail e senha."); return; }
+
+    setLoading(true);
+    try {
+      const { user } = await AuthService.login({ email, senha });
+      // Navega para Perfil passando o usuário logado
+      onNavegar("Perfil", user);
+    } catch (e: any) {
+      const msg = e?.response?.data?.error ?? "Erro ao fazer login. Tente novamente.";
+      setErro(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScrollView style={s.scroll} contentContainerStyle={s.center}>
       <View style={s.card}>
+
         <Text style={s.cardTitle}>Entrar</Text>
         <Text style={s.cardSubtitle}>
           Acesse sua conta para continuar explorando o dicionário.
         </Text>
+
+        {/* Erro */}
+        {!!erro && (
+          <View style={{ backgroundColor: "#FEF3F3", borderRadius: 8, padding: 12, marginBottom: 16 }}>
+            <Text style={{ fontSize: 13, color: "#C0514A" }}>{erro}</Text>
+          </View>
+        )}
 
         {/* Email */}
         <View style={s.fieldGroup}>
@@ -57,7 +88,7 @@ export default function Login({ onNavegar }: { onNavegar: (pagina: any) => void 
           <View style={{ position: "relative" }}>
             <TextInput
               style={[s.input, { paddingRight: 44 }]}
-              placeholder="••••••••"
+              placeholder="Sua senha"
               placeholderTextColor="#9CA3AF"
               secureTextEntry={!senhaVisivel}
               value={senha}
@@ -73,11 +104,13 @@ export default function Login({ onNavegar }: { onNavegar: (pagina: any) => void 
         </View>
 
         {/* Botão */}
-        <TouchableOpacity style={s.btn}>
-          <Text style={s.btnText}>Entrar</Text>
+        <TouchableOpacity style={s.btn} onPress={handleLogin} disabled={loading}>
+          {loading
+            ? <ActivityIndicator color="#fff" />
+            : <Text style={s.btnText}>Entrar</Text>
+          }
         </TouchableOpacity>
 
-        {/* Rodapé */}
         <View style={s.footerRow}>
           <Text style={s.footerText}>Não tem uma conta?</Text>
           <TouchableOpacity onPress={() => onNavegar("Cadastro")}>
