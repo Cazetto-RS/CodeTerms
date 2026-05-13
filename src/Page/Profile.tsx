@@ -76,6 +76,8 @@ export default function Profile({
       {/* ── Topo: avatar + dados pessoais ── */}
       <View style={s.topRow}>
 
+        <View style={s.alinhamento}>
+
         {/* Avatar */}
         <View style={s.header}>
           <View style={s.avatar}>
@@ -91,7 +93,7 @@ export default function Profile({
         </View>
 
         {/* Dados pessoais */}
-        <View style={[s.card, { marginBottom: 0 }]}>
+        <View style={[s.cardDados, { marginBottom: 0 }]}>
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>Dados pessoais</Text>
           </View>
@@ -107,6 +109,7 @@ export default function Profile({
             <Text style={s.infoLabel}>E-mail</Text>
             <Text style={s.infoValue}>{usuario.email}</Text>
           </View>
+        </View>
         </View>
       </View>
 

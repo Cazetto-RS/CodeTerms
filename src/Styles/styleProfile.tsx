@@ -37,6 +37,14 @@ export const getStyles = (width: number) => {
       width: "100%",
     },
 
+    alinhamento: {
+      flex: 1,
+      flexDirection: isWeb? "row" : "column",
+      gap: "2%",
+      width: "100%",
+      marginBottom: 10
+    },
+
     // ── Cabeçalho do perfil
     header: {
       backgroundColor: Colors.white,
@@ -46,7 +54,8 @@ export const getStyles = (width: number) => {
       borderColor: Colors.border,
       alignItems: "center",
       marginBottom: 16,
-      width: "20%",
+      width: isWeb ? "20%" : "100%",
+      height: isWeb ? "95%" : "50%"
     },
     avatar: {
       width: 72,
@@ -74,6 +83,18 @@ export const getStyles = (width: number) => {
     },
 
     // ── Card de informações
+    cardDados: {
+      flex: 1,
+      backgroundColor: Colors.white,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: Colors.border,
+      overflow: "hidden",
+      width: isWeb ? "78%" : "100%",
+      height: isWeb ? "95%" : "100%",
+      justifyContent: "center"
+
+    },
     card: {
       backgroundColor: Colors.white,
       borderRadius: 16,
@@ -81,7 +102,7 @@ export const getStyles = (width: number) => {
       borderColor: Colors.border,
       marginBottom: 16,
       overflow: "hidden",
-      width: "78.5%"
+      width: "100%"
     },
     cardConta: {
       backgroundColor: Colors.white,

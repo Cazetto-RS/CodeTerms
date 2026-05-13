@@ -75,7 +75,7 @@ export default function Cadastro({
 
   return (
     <ScrollView style={s.scroll} contentContainerStyle={s.center}>
-      <View style={s.card}>
+      <View style={s.cardCadastro}>
         <Text style={s.cardTitle}>Criar conta</Text>
         <Text style={s.cardSubtitle}>
           Preencha os dados abaixo para se cadastrar no CodeTerms.
@@ -166,6 +166,7 @@ export default function Cadastro({
           </TouchableOpacity>
         </View>
       </View>
+      <View style={s.espacamento}></View>
     </ScrollView>
   );
 }

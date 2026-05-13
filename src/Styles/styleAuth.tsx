@@ -24,6 +24,7 @@ export const getStyles = (width: number) => {
     },
     center: {
       flex: 1,
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       paddingHorizontal: 20,
@@ -37,6 +38,21 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
+      marginTop: isWeb ? 0 : 150
+    },
+    cardCadastro: {
+      width: "100%",
+      maxWidth: isWeb ? 440 : undefined,
+      backgroundColor: Colors.white,
+      borderRadius: 16,
+      padding: isWeb ? 40 : 28,
+      borderWidth: 1,
+      borderColor: Colors.border,
+      marginTop: isWeb ? 100 : 150
+    },
+    espacamento: {
+      width: 20,
+      height: 40
     },
 
     // ── Topo do card
