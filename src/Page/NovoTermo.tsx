@@ -55,9 +55,10 @@ export default function NovoTermo({ onNavegar }: { onNavegar: (pagina: any) => v
     }
 
     // Monta exemplo como objeto se preenchido
-    const exemplo = (exemploEn || exemploPt)
-      ? { en: exemploEn || "", pt: exemploPt || "" }
-      : null;
+    const exemplo = {
+      en: exemploEn ? [exemploEn] : [],
+      pt: exemploPt ? [exemploPt] : []
+    };
 
     // Sinonimos / antonimos como arrays separados por vírgula
     const toArr = (s: string) =>
