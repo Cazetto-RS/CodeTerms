@@ -53,7 +53,7 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 200 : 750
+      marginTop: isWeb ? 30 : 750
     },
 
     cardCadastro: {
@@ -64,11 +64,11 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 100 : 150
+      marginTop: isWeb ? 30 : 150
     },
     espacamento: {
       width: 20,
-      height: 40
+      height: 30
     },
 
     // ── Topo do card

@@ -7,6 +7,8 @@ const borderColor = "#E5E8EF";
 const bgPage = "#F5F7FA";
 const bgCard = "#FFFFFF";
 const bgSecondary = "#F0F4F8";
+const deleteBtn = "#fbebeb";
+const iconBtn = "#EBF4FB";
 
 export const getStyles = (width: number) => {
   const isWeb = width > 768;
@@ -68,7 +70,7 @@ export const getStyles = (width: number) => {
       width: 34,
       height: 34,
       borderRadius: 8,
-      backgroundColor: "#EBF4FB",
+      backgroundColor: iconBtn,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -77,6 +79,14 @@ export const getStyles = (width: number) => {
       height: 34,
       borderRadius: 8,
       backgroundColor: bgSecondary,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    deleteBtn: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      backgroundColor: deleteBtn,
       alignItems: "center",
       justifyContent: "center"
     },

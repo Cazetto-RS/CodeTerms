@@ -63,7 +63,11 @@ interface Termo {
 
 type Ordem = "relevancia" | "az" | "za";
 
-export default function Home() {
+interface HomeProps {
+  usuario?: any;
+}
+
+export default function Home({ usuario }: { usuario?: any }) {
   const { width } = useWindowDimensions();
   const styles = getStyles(width);
 
@@ -147,9 +151,8 @@ export default function Home() {
       style={styles.container}
       contentContainerStyle={{ alignItems: "center" }}
     >
-      <View style={{ width: "100%", alignItems: "center"}}>
+      <View style={{ width: "100%", alignItems: "center" }}>
         {/* ── Topbar ── */}
-
 
         {/* ── Conteúdo ── */}
         <View style={styles.content}>
@@ -298,6 +301,12 @@ export default function Home() {
             visivel={modalVisivel}
             fechar={() => setModalVisivel(false)}
             termo={termoSelecionado}
+            usuario={usuario}
+            onDeletado={(id: number): void => {
+              setTermos((prev: Termo[]) => prev.filter((t: Termo) => t.id !== id));
+              setTermosMestres((prev: Termo[]) => prev.filter((t: Termo) => t.id !== id));
+              setModalVisivel(false);
+            }}
           />
         </View>
       </View>

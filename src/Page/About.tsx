@@ -70,7 +70,7 @@ export default function About() {
           <Text style={style.heroBadgeText}>Uma parceria entre Lar Donato Flores e Fatec Tatuí </Text>
         </View>
         <Text style={style.heroTitle}>
-          Sobre o{"\n"}<Text style={style.heroTitleBlue}>CodeTerms</Text>
+          Sobre o{"\n"}<Text style={style.heroTitleBlue}>Projeto CodeTerms</Text>
         </Text>
         <Text style={style.heroSubtitle}>
           Uma iniciativa que une tecnologia, educação e esperança — levando o vocabulário do

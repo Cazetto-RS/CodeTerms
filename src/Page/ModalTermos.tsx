@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   useWindowDimensions,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
+import { TermsAdminService } from "../server/termsAdminService";
 import { getStyles } from "../Styles/StyleModalTermos";
 import * as Clipboard from "expo-clipboard";
 import * as Speech from "expo-speech";
@@ -22,6 +24,12 @@ const SpeakerIcon = () => (
       d="M12.818 0.562728C12.9094 0.471435 13.0333 0.420157 13.1625 0.420157C13.2917 0.420157 13.4156 0.471435 13.507 0.562728L13.5089 0.564028L13.5109 0.565978L13.5167 0.572478C13.5449 0.600269 13.5718 0.629333 13.5973 0.659578C13.6487 0.717428 13.7195 0.801278 13.8027 0.909828C13.9698 1.12628 14.1888 1.44478 14.4066 1.85883C14.8421 2.68693 15.275 3.90178 15.275 5.45723C15.275 7.01268 14.8421 8.22753 14.4066 9.05628C14.2331 9.38946 14.0311 9.70699 13.8027 10.0053C13.7129 10.1221 13.6175 10.2344 13.5167 10.342L13.5102 10.3485L13.5089 10.3504L13.5076 10.3511L13.1625 10.0072L13.507 10.3517C13.4151 10.4406 13.292 10.4898 13.1642 10.4887C13.0363 10.4877 12.914 10.4365 12.8236 10.3461C12.7332 10.2558 12.6818 10.1335 12.6807 10.0057C12.6795 9.87788 12.7286 9.75471 12.8173 9.66273L12.8264 9.65363L12.8674 9.60813C12.906 9.56566 12.9601 9.49979 13.0299 9.41053C13.1677 9.23113 13.3549 8.96008 13.5434 8.60193C13.9204 7.88693 14.3 6.82678 14.3 5.45723C14.3 4.08768 13.9204 3.02753 13.5434 2.31253C13.3954 2.02896 13.2236 1.75845 13.0299 1.50393C12.9654 1.42017 12.8975 1.33907 12.8264 1.26083L12.8173 1.25173C12.7261 1.16032 12.6748 1.03642 12.6748 0.907228C12.6748 0.77804 12.7267 0.654134 12.818 0.562728ZM7.66155 0.189628C8.4175 -0.308922 9.425 0.233828 9.425 1.13928V10.4252C9.425 11.3313 8.4175 11.8734 7.66155 11.3748L3.76155 8.80408C3.73517 8.78648 3.70421 8.77699 3.6725 8.77678H1.7875C1.31343 8.77678 0.858768 8.58845 0.523547 8.25323C0.188325 7.91801 0 7.46335 0 6.98928V4.57518C0 4.34044 0.046235 4.108 0.136065 3.89113C0.225896 3.67426 0.357562 3.47721 0.523547 3.31122C0.689531 3.14524 0.886584 3.01357 1.10345 2.92374C1.32032 2.83391 1.55276 2.78768 1.7875 2.78768H3.6725C3.70437 2.78778 3.73556 2.77851 3.7622 2.76103L7.66155 0.189628Z"
       fill="#131417"
     />
+  </svg>
+);
+
+const DeleteIcon = () => (
+  <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.491 1.471L11.784 3.5H15.75C15.9489 3.5 16.1397 3.57902 16.2803 3.71967C16.421 3.86032 16.5 4.05109 16.5 4.25C16.5 4.44891 16.421 4.63968 16.2803 4.78033C16.1397 4.92098 15.9489 5 15.75 5H14.981L14.108 15.185C14.055 15.805 14.012 16.315 13.943 16.727C13.873 17.156 13.766 17.54 13.557 17.896C13.2288 18.4551 12.7409 18.9033 12.156 19.183C11.784 19.36 11.392 19.433 10.958 19.467C10.541 19.5 10.03 19.5 9.408 19.5H7.092C6.47 19.5 5.959 19.5 5.542 19.467C5.108 19.433 4.716 19.36 4.344 19.183C3.75908 18.9033 3.27118 18.4551 2.943 17.896C2.733 17.54 2.628 17.156 2.557 16.727C2.488 16.314 2.445 15.805 2.392 15.185L1.519 5H0.75C0.551088 5 0.360322 4.92098 0.21967 4.78033C0.0790175 4.63968 0 4.44891 0 4.25C0 4.05109 0.0790175 3.86032 0.21967 3.71967C0.360322 3.57902 0.551088 3.5 0.75 3.5H4.716L5.009 1.471L5.02 1.41C5.202 0.62 5.88 0 6.73 0H9.77C10.62 0 11.298 0.62 11.48 1.41L11.491 1.471ZM6.231 3.5H10.268L10.012 1.724C9.964 1.557 9.842 1.5 9.769 1.5H6.731C6.658 1.5 6.536 1.557 6.488 1.724L6.231 3.5ZM7.5 8.25C7.5 8.05109 7.42098 7.86032 7.28033 7.71967C7.13968 7.57902 6.94891 7.5 6.75 7.5C6.55109 7.5 6.36032 7.57902 6.21967 7.71967C6.07902 7.86032 6 8.05109 6 8.25V13.25C6 13.4489 6.07902 13.6397 6.21967 13.7803C6.36032 13.921 6.55109 14 6.75 14C6.94891 14 7.13968 13.921 7.28033 13.7803C7.42098 13.6397 7.5 13.4489 7.5 13.25V8.25ZM10.5 8.25C10.5 8.05109 10.421 7.86032 10.2803 7.71967C10.1397 7.57902 9.94891 7.5 9.75 7.5C9.55109 7.5 9.36032 7.57902 9.21967 7.71967C9.07902 7.86032 9 8.05109 9 8.25V13.25C9 13.4489 9.07902 13.6397 9.21967 13.7803C9.36032 13.921 9.55109 14 9.75 14C9.94891 14 10.1397 13.921 10.2803 13.7803C10.421 13.6397 10.5 13.4489 10.5 13.25V8.25Z" fill="#a90c0c"/>
   </svg>
 );
 
@@ -67,10 +75,27 @@ const Secao = ({
 
 // ─── Modal principal ──────────────────────────────────────────────────────────
 
-export default function ModalTermos({ visivel, fechar, termo }) {
+export default function ModalTermos({ visivel, fechar, termo, usuario, onDeletado }) {
   const { width } = useWindowDimensions();
   const styles = getStyles(width);
   const [imagemAmpliada, setImagemAmpliada] = useState(false);
+  const [deletando, setDeletando] = useState(false);
+  const [erroDelete, setErroDelete] = useState("");
+
+  const isAdmin = usuario?.nivel_acesso === "admin";
+
+  const handleDeletar = async () => {
+    if (!window.confirm(`Deletar o termo "${termo.termo}"? Esta ação não pode ser desfeita.`)) return;
+    setDeletando(true);
+    setErroDelete("");
+    try {
+      await TermsAdminService.deleteTerm(termo.id);
+      onDeletado?.(termo.id);
+    } catch (e: any) {
+      setErroDelete(e?.response?.data?.error ?? e?.message ?? "Erro ao deletar.");
+      setDeletando(false);
+    }
+  };
 
   if (!termo) return null;
 
@@ -142,6 +167,15 @@ export default function ModalTermos({ visivel, fechar, termo }) {
               >
                 <CopyIcon />
               </TouchableOpacity>
+              {isAdmin && (
+                              <TouchableOpacity
+                onPress={handleDeletar}
+                style={styles.deleteBtn}
+                activeOpacity={0.7}
+              >
+                <DeleteIcon />
+              </TouchableOpacity>
+              )}
               <TouchableOpacity
                 onPress={fechar}
                 style={styles.closeBtn}
@@ -154,6 +188,11 @@ export default function ModalTermos({ visivel, fechar, termo }) {
 
           {/* Linha divisória */}
           <View style={styles.divider} />
+          {!!erroDelete && (
+            <View style={{ backgroundColor: "#FEF3F3", padding: 10, marginHorizontal: 16 }}>
+              <Text style={{ fontSize: 12, color: "#C0514A" }}>{erroDelete}</Text>
+            </View>
+          )}
 
           {/* ── Corpo scrollável ── */}
           <ScrollView

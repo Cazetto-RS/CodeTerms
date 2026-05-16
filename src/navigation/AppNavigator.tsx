@@ -29,7 +29,7 @@ export default function AppNavigator() {
 
   const renderPagina = () => {
     switch (paginaAtiva) {
-      case "Home":      return <Home />;
+      case "Home": return <Home usuario={usuario} />;
       case "Sobre":     return <About />;
       case "Perfil":    return <Profile onNavegar={navegar} usuario={usuario} />;
       case "Login":     return <Login onNavegar={navegar} />;
