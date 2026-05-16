@@ -40,6 +40,22 @@ export const getStyles = (width: number) => {
       borderColor: Colors.border,
       marginTop: isWeb ? 0 : 150
     },
+    CardDirecao: {
+      flex: 1,
+      flexDirection: isWeb ? "row" : "column",
+      gap: 30
+    },
+    cardNovo: {
+      width: "100%",
+      maxWidth: isWeb ? 600 : undefined,
+      backgroundColor: Colors.white,
+      borderRadius: 16,
+      padding: isWeb ? 40 : 28,
+      borderWidth: 1,
+      borderColor: Colors.border,
+      marginTop: isWeb ? 200 : 750
+    },
+
     cardCadastro: {
       width: "100%",
       maxWidth: isWeb ? 440 : undefined,

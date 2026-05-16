@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { getStyles } from "../Styles/styleAuth";
+import { AuthService } from "../server/authService";
 
 const UserIcon = () => (
   <svg
@@ -58,6 +59,22 @@ export default function Cadastro({
 }: {
   onNavegar: (pagina: any) => void;
 }) {
+  const handleRegister = async () => {
+    try {
+      await AuthService.register({
+        nome,
+        ano_nascimento: anoNascimento,
+        email,
+        senha,
+      });
+
+      onNavegar("Login");
+    } catch (err) {
+      console.error(err);
+      console.log("Erro ao criar conta");
+    }
+  };
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 
@@ -154,7 +171,7 @@ export default function Cadastro({
         </View>
 
         {/* Botão */}
-        <TouchableOpacity style={s.btn}>
+        <TouchableOpacity style={s.btn} onPress={handleRegister}>
           <Text style={s.btnText}>Criar conta</Text>
         </TouchableOpacity>
 

@@ -13,15 +13,14 @@ const getActiveRoute = async () => {
         } catch (e) {
             console.log(`API não encontrada em: ${url}`);
         }
-        return null;
     }
+    return null;
 }
 
 const api = axios.create({
-  baseURL: 'https://codeterms-back.onrender.com', // Ou seu IP
+  baseURL: 'https://codeterms-back.onrender.com',
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    Accept: 'application/json'
   }
 });
 
