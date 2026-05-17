@@ -125,7 +125,7 @@ export default function Profile({
           </View>
           <ChevronIcon />
         </TouchableOpacity>
-        <TouchableOpacity style={s.actionBtnLast}>
+        <TouchableOpacity style={s.actionBtnLast} onPress={() => onNavegar("AlterarSenha")}>
           <View style={s.actionBtnLeft}>
             <View style={s.actionBtnIcon}><LockIcon /></View>
             <Text style={s.actionBtnText}>Alterar senha</Text>

@@ -63,10 +63,6 @@ interface Termo {
 
 type Ordem = "relevancia" | "az" | "za";
 
-interface HomeProps {
-  usuario?: any;
-}
-
 export default function Home({ usuario }: { usuario?: any }) {
   const { width } = useWindowDimensions();
   const styles = getStyles(width);
@@ -151,8 +147,9 @@ export default function Home({ usuario }: { usuario?: any }) {
       style={styles.container}
       contentContainerStyle={{ alignItems: "center" }}
     >
-      <View style={{ width: "100%", alignItems: "center" }}>
+      <View style={{ width: "100%", alignItems: "center"}}>
         {/* ── Topbar ── */}
+
 
         {/* ── Conteúdo ── */}
         <View style={styles.content}>
@@ -302,10 +299,15 @@ export default function Home({ usuario }: { usuario?: any }) {
             fechar={() => setModalVisivel(false)}
             termo={termoSelecionado}
             usuario={usuario}
-            onDeletado={(id: number): void => {
-              setTermos((prev: Termo[]) => prev.filter((t: Termo) => t.id !== id));
-              setTermosMestres((prev: Termo[]) => prev.filter((t: Termo) => t.id !== id));
+            onDeletado={(id) => {
+              setTermos((prev) => prev.filter((t) => t.id !== id));
+              setTermosMestres((prev) => prev.filter((t) => t.id !== id));
               setModalVisivel(false);
+            }}
+            onEditado={(atualizado) => {
+              setTermos((prev) => prev.map((t) => t.id === atualizado.id ? atualizado : t));
+              setTermosMestres((prev) => prev.map((t) => t.id === atualizado.id ? atualizado : t));
+              setTermoSelecionado(atualizado);
             }}
           />
         </View>

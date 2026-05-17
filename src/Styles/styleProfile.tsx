@@ -36,7 +36,9 @@ export const getStyles = (width: number) => {
       marginBottom: 16,
       width: "100%",
     },
+    topRow: {
 
+    },
     alinhamento: {
       flex: 1,
       flexDirection: isWeb? "row" : "column",

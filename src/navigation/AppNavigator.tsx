@@ -8,8 +8,9 @@ import Profile from "../Page/Profile";
 import Login from "../Page/Login";
 import Cadastro from "../Page/Cadastro";
 import NovoTermo from "../Page/NovoTermo";
+import AlterarSenha from "../Page/AlterarSenha";
 
-export type Page = "Home" | "Sobre" | "Perfil" | "Login" | "Cadastro" | "NovoTermo";
+export type Page = "Home" | "Sobre" | "Perfil" | "Login" | "Cadastro" | "NovoTermo" | "AlterarSenha";
 
 export default function AppNavigator() {
   const [paginaAtiva, setPaginaAtiva] = useState<Page>("Home");
@@ -35,6 +36,7 @@ export default function AppNavigator() {
       case "Login":     return <Login onNavegar={navegar} />;
       case "Cadastro":  return <Cadastro onNavegar={navegar} />;
       case "NovoTermo": return <NovoTermo onNavegar={navegar} />;
+      case "AlterarSenha": return <AlterarSenha onNavegar={navegar} usuario={usuario} />;
     }
   };
 

@@ -5,6 +5,7 @@ import {
   Modal,
   TouchableOpacity,
   ScrollView,
+  TextInput,
   useWindowDimensions,
   ActivityIndicator,
 } from "react-native";
@@ -14,105 +15,228 @@ import { getStyles } from "../Styles/StyleModalTermos";
 import * as Clipboard from "expo-clipboard";
 import * as Speech from "expo-speech";
 
-// ─── Ícones inline ────────────────────────────────────────────────────────────
+// ─── Ícones ───────────────────────────────────────────────────────────────────
 
 const SpeakerIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 12" fill="none">
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M12.818 0.562728C12.9094 0.471435 13.0333 0.420157 13.1625 0.420157C13.2917 0.420157 13.4156 0.471435 13.507 0.562728L13.5089 0.564028L13.5109 0.565978L13.5167 0.572478C13.5449 0.600269 13.5718 0.629333 13.5973 0.659578C13.6487 0.717428 13.7195 0.801278 13.8027 0.909828C13.9698 1.12628 14.1888 1.44478 14.4066 1.85883C14.8421 2.68693 15.275 3.90178 15.275 5.45723C15.275 7.01268 14.8421 8.22753 14.4066 9.05628C14.2331 9.38946 14.0311 9.70699 13.8027 10.0053C13.7129 10.1221 13.6175 10.2344 13.5167 10.342L13.5102 10.3485L13.5089 10.3504L13.5076 10.3511L13.1625 10.0072L13.507 10.3517C13.4151 10.4406 13.292 10.4898 13.1642 10.4887C13.0363 10.4877 12.914 10.4365 12.8236 10.3461C12.7332 10.2558 12.6818 10.1335 12.6807 10.0057C12.6795 9.87788 12.7286 9.75471 12.8173 9.66273L12.8264 9.65363L12.8674 9.60813C12.906 9.56566 12.9601 9.49979 13.0299 9.41053C13.1677 9.23113 13.3549 8.96008 13.5434 8.60193C13.9204 7.88693 14.3 6.82678 14.3 5.45723C14.3 4.08768 13.9204 3.02753 13.5434 2.31253C13.3954 2.02896 13.2236 1.75845 13.0299 1.50393C12.9654 1.42017 12.8975 1.33907 12.8264 1.26083L12.8173 1.25173C12.7261 1.16032 12.6748 1.03642 12.6748 0.907228C12.6748 0.77804 12.7267 0.654134 12.818 0.562728ZM7.66155 0.189628C8.4175 -0.308922 9.425 0.233828 9.425 1.13928V10.4252C9.425 11.3313 8.4175 11.8734 7.66155 11.3748L3.76155 8.80408C3.73517 8.78648 3.70421 8.77699 3.6725 8.77678H1.7875C1.31343 8.77678 0.858768 8.58845 0.523547 8.25323C0.188325 7.91801 0 7.46335 0 6.98928V4.57518C0 4.34044 0.046235 4.108 0.136065 3.89113C0.225896 3.67426 0.357562 3.47721 0.523547 3.31122C0.689531 3.14524 0.886584 3.01357 1.10345 2.92374C1.32032 2.83391 1.55276 2.78768 1.7875 2.78768H3.6725C3.70437 2.78778 3.73556 2.77851 3.7622 2.76103L7.66155 0.189628Z"
-      fill="#131417"
-    />
-  </svg>
-);
-
-const DeleteIcon = () => (
-  <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M11.491 1.471L11.784 3.5H15.75C15.9489 3.5 16.1397 3.57902 16.2803 3.71967C16.421 3.86032 16.5 4.05109 16.5 4.25C16.5 4.44891 16.421 4.63968 16.2803 4.78033C16.1397 4.92098 15.9489 5 15.75 5H14.981L14.108 15.185C14.055 15.805 14.012 16.315 13.943 16.727C13.873 17.156 13.766 17.54 13.557 17.896C13.2288 18.4551 12.7409 18.9033 12.156 19.183C11.784 19.36 11.392 19.433 10.958 19.467C10.541 19.5 10.03 19.5 9.408 19.5H7.092C6.47 19.5 5.959 19.5 5.542 19.467C5.108 19.433 4.716 19.36 4.344 19.183C3.75908 18.9033 3.27118 18.4551 2.943 17.896C2.733 17.54 2.628 17.156 2.557 16.727C2.488 16.314 2.445 15.805 2.392 15.185L1.519 5H0.75C0.551088 5 0.360322 4.92098 0.21967 4.78033C0.0790175 4.63968 0 4.44891 0 4.25C0 4.05109 0.0790175 3.86032 0.21967 3.71967C0.360322 3.57902 0.551088 3.5 0.75 3.5H4.716L5.009 1.471L5.02 1.41C5.202 0.62 5.88 0 6.73 0H9.77C10.62 0 11.298 0.62 11.48 1.41L11.491 1.471ZM6.231 3.5H10.268L10.012 1.724C9.964 1.557 9.842 1.5 9.769 1.5H6.731C6.658 1.5 6.536 1.557 6.488 1.724L6.231 3.5ZM7.5 8.25C7.5 8.05109 7.42098 7.86032 7.28033 7.71967C7.13968 7.57902 6.94891 7.5 6.75 7.5C6.55109 7.5 6.36032 7.57902 6.21967 7.71967C6.07902 7.86032 6 8.05109 6 8.25V13.25C6 13.4489 6.07902 13.6397 6.21967 13.7803C6.36032 13.921 6.55109 14 6.75 14C6.94891 14 7.13968 13.921 7.28033 13.7803C7.42098 13.6397 7.5 13.4489 7.5 13.25V8.25ZM10.5 8.25C10.5 8.05109 10.421 7.86032 10.2803 7.71967C10.1397 7.57902 9.94891 7.5 9.75 7.5C9.55109 7.5 9.36032 7.57902 9.21967 7.71967C9.07902 7.86032 9 8.05109 9 8.25V13.25C9 13.4489 9.07902 13.6397 9.21967 13.7803C9.36032 13.921 9.55109 14 9.75 14C9.94891 14 10.1397 13.921 10.2803 13.7803C10.421 13.6397 10.5 13.4489 10.5 13.25V8.25Z" fill="#a90c0c"/>
+    <path fillRule="evenodd" clipRule="evenodd" d="M12.818 0.562728C12.9094 0.471435 13.0333 0.420157 13.1625 0.420157C13.2917 0.420157 13.4156 0.471435 13.507 0.562728L13.5089 0.564028L13.5109 0.565978L13.5167 0.572478C13.5449 0.600269 13.5718 0.629333 13.5973 0.659578C13.6487 0.717428 13.7195 0.801278 13.8027 0.909828C13.9698 1.12628 14.1888 1.44478 14.4066 1.85883C14.8421 2.68693 15.275 3.90178 15.275 5.45723C15.275 7.01268 14.8421 8.22753 14.4066 9.05628C14.2331 9.38946 14.0311 9.70699 13.8027 10.0053C13.7129 10.1221 13.6175 10.2344 13.5167 10.342L13.5102 10.3485L13.5089 10.3504L13.5076 10.3511L13.1625 10.0072L13.507 10.3517C13.4151 10.4406 13.292 10.4898 13.1642 10.4887C13.0363 10.4877 12.914 10.4365 12.8236 10.3461C12.7332 10.2558 12.6818 10.1335 12.6807 10.0057C12.6795 9.87788 12.7286 9.75471 12.8173 9.66273L12.8264 9.65363L12.8674 9.60813C12.906 9.56566 12.9601 9.49979 13.0299 9.41053C13.1677 9.23113 13.3549 8.96008 13.5434 8.60193C13.9204 7.88693 14.3 6.82678 14.3 5.45723C14.3 4.08768 13.9204 3.02753 13.5434 2.31253C13.3954 2.02896 13.2236 1.75845 13.0299 1.50393C12.9654 1.42017 12.8975 1.33907 12.8264 1.26083L12.8173 1.25173C12.7261 1.16032 12.6748 1.03642 12.6748 0.907228C12.6748 0.77804 12.7267 0.654134 12.818 0.562728ZM7.66155 0.189628C8.4175 -0.308922 9.425 0.233828 9.425 1.13928V10.4252C9.425 11.3313 8.4175 11.8734 7.66155 11.3748L3.76155 8.80408C3.73517 8.78648 3.70421 8.77699 3.6725 8.77678H1.7875C1.31343 8.77678 0.858768 8.58845 0.523547 8.25323C0.188325 7.91801 0 7.46335 0 6.98928V4.57518C0 4.34044 0.046235 4.108 0.136065 3.89113C0.225896 3.67426 0.357562 3.47721 0.523547 3.31122C0.689531 3.14524 0.886584 3.01357 1.10345 2.92374C1.32032 2.83391 1.55276 2.78768 1.7875 2.78768H3.6725C3.70437 2.78778 3.73556 2.77851 3.7622 2.76103L7.66155 0.189628Z" fill="#131417" />
   </svg>
 );
 
 const CopyIcon = () => (
   <svg width="15" height="15" viewBox="0 0 12 13" fill="none">
-    <path
-      d="M2.33997 6.10805C2.33997 4.33615 2.33997 3.4502 2.88792 2.89965C3.43652 2.3491 4.31857 2.3491 6.08396 2.3491H7.95597C9.72071 2.3491 10.6034 2.3491 11.1514 2.89965C11.7 3.4502 11.7 4.33615 11.7 6.10805V9.24105C11.7 11.0129 11.7 11.8989 11.1514 12.4494C10.6034 13 9.72071 13 7.95597 13H6.08396C4.31857 13 3.43652 13 2.88792 12.4494C2.33932 11.8989 2.33997 11.0129 2.33997 9.24105V6.10805Z"
-      fill="#131417"
-    />
-    <path
-      opacity="0.5"
-      d="M0.7618 0.7618C-7.7486e-08 1.52295 0 2.74885 0 5.2V6.5C0 8.95115 -7.7486e-08 10.177 0.7618 10.9382C1.16285 11.3399 1.69325 11.5297 2.4648 11.6194C2.34 11.0734 2.34 10.322 2.34 9.2404V6.10805C2.34 4.33615 2.34 3.4502 2.88795 2.89965C3.43655 2.3491 4.3186 2.3491 6.084 2.3491H7.956C9.0298 2.3491 9.776 2.3491 10.3207 2.4726C10.231 1.69715 10.0412 1.1648 9.6382 0.7618C8.87705 -7.7486e-08 7.65115 0 5.2 0C2.74885 0 1.52295 -7.7486e-08 0.7618 0.7618Z"
-      fill="#8A8FA3"
-    />
+    <path d="M2.33997 6.10805C2.33997 4.33615 2.33997 3.4502 2.88792 2.89965C3.43652 2.3491 4.31857 2.3491 6.08396 2.3491H7.95597C9.72071 2.3491 10.6034 2.3491 11.1514 2.89965C11.7 3.4502 11.7 4.33615 11.7 6.10805V9.24105C11.7 11.0129 11.7 11.8989 11.1514 12.4494C10.6034 13 9.72071 13 7.95597 13H6.08396C4.31857 13 3.43652 13 2.88792 12.4494C2.33932 11.8989 2.33997 11.0129 2.33997 9.24105V6.10805Z" fill="#131417" />
+    <path opacity="0.5" d="M0.7618 0.7618C-7.7486e-08 1.52295 0 2.74885 0 5.2V6.5C0 8.95115 -7.7486e-08 10.177 0.7618 10.9382C1.16285 11.3399 1.69325 11.5297 2.4648 11.6194C2.34 11.0734 2.34 10.322 2.34 9.2404V6.10805C2.34 4.33615 2.34 3.4502 2.88795 2.89965C3.43655 2.3491 4.3186 2.3491 6.084 2.3491H7.956C9.0298 2.3491 9.776 2.3491 10.3207 2.4726C10.231 1.69715 10.0412 1.1648 9.6382 0.7618C8.87705 -7.7486e-08 7.65115 0 5.2 0C2.74885 0 1.52295 -7.7486e-08 0.7618 0.7618Z" fill="#8A8FA3" />
   </svg>
 );
 
 const CloseIcon = () => (
   <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
-    <path
-      d="M1.10833 11.0833L0 9.975L4.43333 5.54167L0 1.10833L1.10833 0L5.54167 4.43333L9.975 0L11.0833 1.10833L6.65 5.54167L11.0833 9.975L9.975 11.0833L5.54167 6.65L1.10833 11.0833Z"
-      fill="#8A8FA3"
-    />
+    <path d="M1.10833 11.0833L0 9.975L4.43333 5.54167L0 1.10833L1.10833 0L5.54167 4.43333L9.975 0L11.0833 1.10833L6.65 5.54167L11.0833 9.975L9.975 11.0833L5.54167 6.65L1.10833 11.0833Z" fill="#8A8FA3" />
   </svg>
 );
 
-// ─── Componente de seção do modal ─────────────────────────────────────────────
+const DeleteIcon = () => (
+  <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.491 1.471L11.784 3.5H15.75C15.9489 3.5 16.1397 3.57902 16.2803 3.71967C16.421 3.86032 16.5 4.05109 16.5 4.25C16.5 4.44891 16.421 4.63968 16.2803 4.78033C16.1397 4.92098 15.9489 5 15.75 5H14.981L14.108 15.185C14.055 15.805 14.012 16.315 13.943 16.727C13.873 17.156 13.766 17.54 13.557 17.896C13.2288 18.4551 12.7409 18.9033 12.156 19.183C11.784 19.36 11.392 19.433 10.958 19.467C10.541 19.5 10.03 19.5 9.408 19.5H7.092C6.47 19.5 5.959 19.5 5.542 19.467C5.108 19.433 4.716 19.36 4.344 19.183C3.75908 18.9033 3.27118 18.4551 2.943 17.896C2.733 17.54 2.628 17.156 2.557 16.727C2.488 16.314 2.445 15.805 2.392 15.185L1.519 5H0.75C0.551088 5 0.360322 4.92098 0.21967 4.78033C0.0790175 4.63968 0 4.44891 0 4.25C0 4.05109 0.0790175 3.86032 0.21967 3.71967C0.360322 3.57902 0.551088 3.5 0.75 3.5H4.716L5.009 1.471L5.02 1.41C5.202 0.62 5.88 0 6.73 0H9.77C10.62 0 11.298 0.62 11.48 1.41L11.491 1.471ZM6.231 3.5H10.268L10.012 1.724C9.964 1.557 9.842 1.5 9.769 1.5H6.731C6.658 1.5 6.536 1.557 6.488 1.724L6.231 3.5ZM7.5 8.25C7.5 8.05109 7.42098 7.86032 7.28033 7.71967C7.13968 7.57902 6.94891 7.5 6.75 7.5C6.55109 7.5 6.36032 7.57902 6.21967 7.71967C6.07902 7.86032 6 8.05109 6 8.25V13.25C6 13.4489 6.07902 13.6397 6.21967 13.7803C6.36032 13.921 6.55109 14 6.75 14C6.94891 14 7.13968 13.921 7.28033 13.7803C7.42098 13.6397 7.5 13.4489 7.5 13.25V8.25ZM10.5 8.25C10.5 8.05109 10.421 7.86032 10.2803 7.71967C10.1397 7.57902 9.94891 7.5 9.75 7.5C9.55109 7.5 9.36032 7.57902 9.21967 7.71967C9.07902 7.86032 9 8.05109 9 8.25V13.25C9 13.4489 9.07902 13.6397 9.21967 13.7803C9.36032 13.921 9.55109 14 9.75 14C9.94891 14 10.1397 13.921 10.2803 13.7803C10.421 13.6397 10.5 13.4489 10.5 13.25V8.25Z" fill="rgb(184, 18, 18)"/>
+  </svg>
+);
 
-const Secao = ({
-  label,
-  children,
-  styles,
-}: {
-  label: string;
-  children: React.ReactNode;
-  styles: any;
-}) => (
+const EditIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="#1A80B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}>
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+  </svg>
+);
+
+// ─── Seção do modal ───────────────────────────────────────────────────────────
+
+const Secao = ({ label, children, styles }: { label: string; children: React.ReactNode; styles: any }) => (
   <View style={styles.secao}>
     <Text style={styles.secaoLabel}>{label}</Text>
     {children}
   </View>
 );
 
+// ─── Modal de confirmação de delete ──────────────────────────────────────────
+
+const ModalConfirmarDelete = ({ termo, onConfirmar, onCancelar, deletando }: any) => (
+  <Modal visible={true} animationType="fade" transparent={true} onRequestClose={onCancelar}>
+    <View style={{
+      flex: 1, backgroundColor: "rgba(0,0,0,0.6)",
+      alignItems: "center", justifyContent: "center", padding: 24,
+    }}>
+      <View style={{
+        backgroundColor: "#fff", borderRadius: 16, padding: 28,
+        width: "100%", maxWidth: 400,
+        shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 20, elevation: 10,
+      }}>
+        {/* Ícone */}
+        <View style={{
+          width: 56, height: 56, borderRadius: 28,
+          backgroundColor: "#FEF3F3", alignItems: "center", justifyContent: "center",
+          alignSelf: "center", marginBottom: 18,
+        }}>
+          <DeleteIcon />
+        </View>
+
+        {/* Título */}
+        <Text style={{
+          fontSize: 18, fontWeight: "800", color: "#1A1D24",
+          textAlign: "center", marginBottom: 8,
+        }}>
+          Deletar termo?
+        </Text>
+
+        {/* Descrição */}
+        <Text style={{
+          fontSize: 14, color: "#6B7280", textAlign: "center",
+          lineHeight: 22, marginBottom: 24,
+        }}>
+          Você está prestes a deletar{" "}
+          <Text style={{ fontWeight: "700", color: "#1A1D24" }}>"{termo.termo}"</Text>
+          . Esta ação não pode ser desfeita.
+        </Text>
+
+        {/* Botões */}
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <TouchableOpacity
+            onPress={onCancelar}
+            style={{
+              flex: 1, paddingVertical: 12, borderRadius: 8,
+              borderWidth: 1.5, borderColor: "#D8DCE6", alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 14, fontWeight: "600", color: "#6B7280" }}>Cancelar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onConfirmar}
+            disabled={deletando}
+            style={{
+              flex: 1, paddingVertical: 12, borderRadius: 8,
+              backgroundColor: "#C0514A", alignItems: "center",
+            }}
+          >
+            {deletando
+              ? <ActivityIndicator color="#fff" size="small" />
+              : <Text style={{ fontSize: 14, fontWeight: "700", color: "#fff" }}>Deletar</Text>
+            }
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+
 // ─── Modal principal ──────────────────────────────────────────────────────────
 
-export default function ModalTermos({ visivel, fechar, termo, usuario, onDeletado }) {
+export default function ModalTermos({ visivel, fechar, termo, usuario, onDeletado, onEditado }) {
   const { width } = useWindowDimensions();
   const styles = getStyles(width);
-  const [imagemAmpliada, setImagemAmpliada] = useState(false);
-  const [deletando, setDeletando] = useState(false);
-  const [erroDelete, setErroDelete] = useState("");
+
+  const [imagemAmpliada,    setImagemAmpliada]    = useState(false);
+  const [confirmarDelete,   setConfirmarDelete]   = useState(false);
+  const [deletando,         setDeletando]         = useState(false);
+  const [modoEdicao,        setModoEdicao]        = useState(false);
+  const [salvando,          setSalvando]          = useState(false);
+  const [erroEdicao,        setErroEdicao]        = useState("");
+
+  // Campos de edição
+  const [editTermo,     setEditTermo]     = useState("");
+  const [editTraducao,  setEditTraducao]  = useState("");
+  const [editDefinicao, setEditDefinicao] = useState("");
+  const [editPronuncia, setEditPronuncia] = useState("");
+  const [editSilabas,   setEditSilabas]   = useState("");
+  const [editSinonimos, setEditSinonimos] = useState("");
+  const [editAntonimos, setEditAntonimos] = useState("");
+  const [editExemploEn, setEditExemploEn] = useState("");
+  const [editExemploPt, setEditExemploPt] = useState("");
+
+  if (!termo) return null;
 
   const isAdmin = usuario?.nivel_acesso === "admin";
 
-  const handleDeletar = async () => {
-    if (!window.confirm(`Deletar o termo "${termo.termo}"? Esta ação não pode ser desfeita.`)) return;
-    setDeletando(true);
-    setErroDelete("");
+  // ── Helpers ──
+  const arrToStr = (val: any) => {
+    if (!val) return "";
+    if (Array.isArray(val)) return val.join(", ");
+    return String(val);
+  };
+  const firstOf = (val: any) => {
+    if (!val) return "";
+    if (Array.isArray(val)) return val[0] ?? "";
+    return String(val);
+  };
+
+  const abrirEdicao = () => {
+    setEditTermo(termo.termo ?? "");
+    setEditTraducao(termo.traducao ?? "");
+    setEditDefinicao(termo.definicao ?? "");
+    setEditPronuncia(termo.pronuncia ?? "");
+    setEditSilabas(termo.silabas ?? "");
+    setEditSinonimos(arrToStr(termo.sinonimos));
+    setEditAntonimos(arrToStr(termo.antonimos));
+    setEditExemploEn(firstOf(termo.exemplo?.en));
+    setEditExemploPt(firstOf(termo.exemplo?.pt));
+    setErroEdicao("");
+    setModoEdicao(true);
+  };
+
+  const handleSalvar = async () => {
+    setErroEdicao("");
+    if (!editTermo || !editTraducao || !editDefinicao) {
+      setErroEdicao("Termo, tradução e definição são obrigatórios."); return;
+    }
+    const toArr = (s: string) => s.trim() ? s.split(",").map(x => x.trim()).filter(Boolean) : null;
+    const payload = {
+      termo:     editTermo,
+      traducao:  editTraducao,
+      definicao: editDefinicao,
+      pronuncia: editPronuncia || null,
+      silabas:   editSilabas   || null,
+      sinonimos: toArr(editSinonimos),
+      antonimos: toArr(editAntonimos),
+      exemplo: (editExemploEn || editExemploPt)
+        ? { en: [editExemploEn], pt: [editExemploPt] }
+        : null,
+    };
+    setSalvando(true);
     try {
-      await TermsAdminService.deleteTerm(termo.id);
-      onDeletado?.(termo.id);
+      const atualizado = await TermsAdminService.updateTerm(termo.id, payload);
+      onEditado?.(atualizado);
+      setModoEdicao(false);
     } catch (e: any) {
-      setErroDelete(e?.response?.data?.error ?? e?.message ?? "Erro ao deletar.");
-      setDeletando(false);
+      setErroEdicao(e?.response?.data?.error ?? e?.message ?? "Erro ao salvar.");
+    } finally {
+      setSalvando(false);
     }
   };
 
-  if (!termo) return null;
+  const handleDeletar = async () => {
+    setDeletando(true);
+    try {
+      await TermsAdminService.deleteTerm(termo.id);
+      setConfirmarDelete(false);
+      onDeletado?.(termo.id);
+    } catch (e: any) {
+      setDeletando(false);
+      setConfirmarDelete(false);
+    }
+  };
 
   const copiarParaAreaDeTransferencia = async (text: string) => {
     await Clipboard.setStringAsync(text);
   };
-
   const falarPalavra = (texto: string) => {
-    if (texto) {
-      Speech.speak(texto, { language: "en-US", pitch: 1.0, rate: 0.5 });
-    }
+    if (texto) Speech.speak(texto, { language: "en-US", pitch: 1.0, rate: 0.5 });
   };
 
   const renderizarExemplos = () => {
     if (!termo.exemplo?.pt || !termo.exemplo?.en) return null;
-
-    return termo.exemplo.pt.map((frasePt: string, index: number) => (
+    const ptArr = Array.isArray(termo.exemplo.pt) ? termo.exemplo.pt : [termo.exemplo.pt];
+    const enArr = Array.isArray(termo.exemplo.en) ? termo.exemplo.en : [termo.exemplo.en];
+    return ptArr.map((frasePt: string, index: number) => (
       <View key={index} style={styles.exemploItem}>
         <View style={styles.exemploBadgeRow}>
           <View style={[styles.langBadge, styles.langBadgePt]}>
@@ -124,7 +248,7 @@ export default function ModalTermos({ visivel, fechar, termo, usuario, onDeletad
           <View style={[styles.langBadge, styles.langBadgeEn]}>
             <Text style={styles.langBadgeText}>EN</Text>
           </View>
-          <Text style={styles.exemploTexto}>{termo.exemplo.en[index]}</Text>
+          <Text style={styles.exemploTexto}>{enArr[index]}</Text>
         </View>
       </View>
     ));
@@ -133,173 +257,215 @@ export default function ModalTermos({ visivel, fechar, termo, usuario, onDeletad
   const temSinonimos = termo.sinonimos && termo.sinonimos.length > 0;
   const temAntonimos = termo.antonimos && termo.antonimos.length > 0;
 
+  // ── Estilo de input inline ──
+  const inputStyle = {
+    borderWidth: 1, borderColor: "#D8DCE6", borderRadius: 8,
+    paddingHorizontal: 10, paddingVertical: 7,
+    fontSize: 14, color: "#131417", backgroundColor: "#F9FAFB",
+    marginTop: 4,
+  };
+  const inputMultiline = { ...inputStyle, height: 80, textAlignVertical: "top" as const, paddingTop: 8 };
+
   return (
-    <Modal
-      visible={visivel}
-      animationType="fade"
-      transparent={true}
-      onRequestClose={fechar}
-    >
-      <View style={styles.overlay}>
-        <View style={styles.containerDiv}>
+    <>
+      <Modal visible={visivel} animationType="fade" transparent={true} onRequestClose={fechar}>
+        <View style={styles.overlay}>
+          <View style={styles.containerDiv}>
 
-          {/* ── Cabeçalho fixo ── */}
-          <View style={styles.header}>
-            <View style={styles.headerLeft}>
-              <Text style={styles.title}>{termo.termo}</Text>
-              {termo.silabas ? (
-                <Text style={styles.silabas}>{termo.silabas}</Text>
-              ) : null}
-            </View>
+            {/* ── Cabeçalho ── */}
+            <View style={styles.header}>
+              <View style={styles.headerLeft}>
+                <Text style={styles.title}>{modoEdicao ? "Editar termo" : termo.termo}</Text>
+                {!modoEdicao && termo.silabas
+                  ? <Text style={styles.silabas}>{termo.silabas}</Text>
+                  : null
+                }
+              </View>
 
-            <View style={styles.headerActions}>
-              <TouchableOpacity
-                onPress={() => falarPalavra(termo.termo)}
-                style={styles.iconBtn}
-                activeOpacity={0.7}
-              >
-                <SpeakerIcon />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => copiarParaAreaDeTransferencia(termo.termo)}
-                style={styles.iconBtn}
-                activeOpacity={0.7}
-              >
-                <CopyIcon />
-              </TouchableOpacity>
-              {isAdmin && (
-                              <TouchableOpacity
-                onPress={handleDeletar}
-                style={styles.deleteBtn}
-                activeOpacity={0.7}
-              >
-                <DeleteIcon />
-              </TouchableOpacity>
-              )}
-              <TouchableOpacity
-                onPress={fechar}
-                style={styles.closeBtn}
-                activeOpacity={0.7}
-              >
-                <CloseIcon />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Linha divisória */}
-          <View style={styles.divider} />
-          {!!erroDelete && (
-            <View style={{ backgroundColor: "#FEF3F3", padding: 10, marginHorizontal: 16 }}>
-              <Text style={{ fontSize: 12, color: "#C0514A" }}>{erroDelete}</Text>
-            </View>
-          )}
-
-          {/* ── Corpo scrollável ── */}
-          <ScrollView
-            style={styles.container}
-            contentContainerStyle={styles.scrollContent}
-            showsVerticalScrollIndicator={false}
-          >
-            {/* Tradução em destaque */}
-            <View style={styles.traducaoCard}>
-              <Text style={styles.traducaoLabel}>Tradução</Text>
-              <Text style={styles.traducaoTexto}>{termo.traducao}</Text>
-            </View>
-
-              {/* Imagem */}
-            {termo.imagem ? (
-              <>
-                {/* Modal de imagem em tela cheia */}
-                <Modal
-                  visible={imagemAmpliada}
-                  animationType="fade"
-                  transparent={true}
-                  onRequestClose={() => setImagemAmpliada(false)}
+              <View style={styles.headerActions}>
+                {!modoEdicao && (
+                  <>
+                    <TouchableOpacity onPress={() => falarPalavra(termo.termo)} style={styles.iconBtn} activeOpacity={0.7}>
+                      <SpeakerIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => copiarParaAreaDeTransferencia(termo.termo)} style={styles.iconBtn} activeOpacity={0.7}>
+                      <CopyIcon />
+                    </TouchableOpacity>
+                  </>
+                )}
+                {isAdmin && !modoEdicao && (
+                  <>
+                    <TouchableOpacity onPress={abrirEdicao} style={styles.iconBtn} activeOpacity={0.7}>
+                      <EditIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setConfirmarDelete(true)} style={styles.deleteBtn} activeOpacity={0.7}>
+                      <DeleteIcon />
+                    </TouchableOpacity>
+                  </>
+                )}
+                <TouchableOpacity
+                  onPress={() => { setModoEdicao(false); fechar(); }}
+                  style={styles.closeBtn} activeOpacity={0.7}
                 >
-                  <TouchableOpacity
-                    style={styles.imagemOverlay}
-                    activeOpacity={1}
-                    onPress={() => setImagemAmpliada(false)}
-                  >
-                    <Image
-                      source={{ uri: termo.imagem }}
-                      style={styles.imagemAmpliada}
-                      resizeMode="contain"
-                    />
-                    <View style={styles.imagemFecharBtn}>
-                      <CloseIcon />
+                  <CloseIcon />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.divider} />
+
+            {/* ── Corpo ── */}
+            <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+
+              {/* ── MODO EDIÇÃO ── */}
+              {modoEdicao ? (
+                <View style={{ gap: 12 }}>
+                  {!!erroEdicao && (
+                    <View style={{ backgroundColor: "#FEF3F3", borderRadius: 8, padding: 10 }}>
+                      <Text style={{ fontSize: 13, color: "#C0514A" }}>{erroEdicao}</Text>
                     </View>
-                  </TouchableOpacity>
-                </Modal>
+                  )}
 
-                {/* Thumbnail clicável no modal principal */}
-                <Secao label="" styles={styles}>
-                  <TouchableOpacity
-                    onPress={() => setImagemAmpliada(true)}
-                    activeOpacity={0.85}
-                    style={styles.imagemContainer}
-                  >
-                    <Image
-                      source={{ uri: termo.imagem }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                    {/* Ícone de lupa sobre a imagem */}
-                    <View style={styles.imagemLupa}>
-                      <svg
-                        width="18" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"
-                      >
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M21 21l-4.35-4.35" />
-                        <path d="M11 8v6M8 11h6" />
-                      </svg>
-                    </View>
-                  </TouchableOpacity>
-                </Secao>
-              </>
-            ) : null}
-
-            <Secao label="Descrição" styles={styles}>
-              <Text style={styles.textoSecao}>{termo.definicao}</Text>
-            </Secao>
-
-            {termo.exemplo?.pt?.length > 0 && (
-              <Secao label="Exemplos" styles={styles}>
-                {renderizarExemplos()}
-              </Secao>
-            )}
-
-            {temSinonimos && (
-              <Secao label="Sinônimos" styles={styles}>
-                <View style={styles.tagRow}>
-                  {termo.sinonimos.map((s: string, i: number) => (
-                    <View key={i} style={styles.tag}>
-                      <Text style={[styles.tagText, styles.tagTextSinonimo]}>{s}</Text>
+                  {[
+                    { label: "Termo *",        value: editTermo,     set: setEditTermo },
+                    { label: "Tradução *",      value: editTraducao,  set: setEditTraducao },
+                    { label: "Pronúncia",       value: editPronuncia, set: setEditPronuncia },
+                    { label: "Sílabas",         value: editSilabas,   set: setEditSilabas },
+                  ].map(({ label, value, set }) => (
+                    <View key={label}>
+                      <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>{label}</Text>
+                      <TextInput style={inputStyle} value={value} onChangeText={set} placeholderTextColor="#9CA3AF" />
                     </View>
                   ))}
-                </View>
-              </Secao>
-            )}
 
-            {temAntonimos && (
-              <Secao label="Antônimos" styles={styles}>
-                <View style={styles.tagRow}>
-                  {termo.antonimos.map((a: string, i: number) => (
-                    <View key={i} style={[styles.tag, styles.tagAntonimo]}>
-                      <Text style={[styles.tagText, styles.tagTextAntonimo]}>
-                        {a}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              </Secao>
-            )}
+                  <View>
+                    <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>Definição *</Text>
+                    <TextInput style={inputMultiline} value={editDefinicao} onChangeText={setEditDefinicao} multiline placeholderTextColor="#9CA3AF" />
+                  </View>
 
-            <View style={{ height: 20 }} />
-          </ScrollView>
+                  <View>
+                    <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>Exemplo em inglês</Text>
+                    <TextInput style={inputStyle} value={editExemploEn} onChangeText={setEditExemploEn} placeholderTextColor="#9CA3AF" />
+                  </View>
+                  <View>
+                    <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>Exemplo em português</Text>
+                    <TextInput style={inputStyle} value={editExemploPt} onChangeText={setEditExemploPt} placeholderTextColor="#9CA3AF" />
+                  </View>
+
+                  <View>
+                    <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>Sinônimos (separe por vírgula)</Text>
+                    <TextInput style={inputStyle} value={editSinonimos} onChangeText={setEditSinonimos} placeholderTextColor="#9CA3AF" />
+                  </View>
+                  <View>
+                    <Text style={{ fontSize: 12, fontWeight: "600", color: "#6B7280" }}>Antônimos (separe por vírgula)</Text>
+                    <TextInput style={inputStyle} value={editAntonimos} onChangeText={setEditAntonimos} placeholderTextColor="#9CA3AF" />
+                  </View>
+
+                  {/* Botões salvar / cancelar */}
+                  <View style={{ flexDirection: "row", gap: 10, marginTop: 8 }}>
+                    <TouchableOpacity
+                      onPress={() => setModoEdicao(false)}
+                      style={{ flex: 1, paddingVertical: 12, borderRadius: 8, borderWidth: 1.5, borderColor: "#D8DCE6", alignItems: "center" }}
+                    >
+                      <Text style={{ fontSize: 14, fontWeight: "600", color: "#6B7280" }}>Cancelar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={handleSalvar}
+                      disabled={salvando}
+                      style={{ flex: 1, paddingVertical: 12, borderRadius: 8, backgroundColor: "#1A80B6", alignItems: "center" }}
+                    >
+                      {salvando
+                        ? <ActivityIndicator color="#fff" size="small" />
+                        : <Text style={{ fontSize: 14, fontWeight: "700", color: "#fff" }}>Salvar</Text>
+                      }
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={{ height: 20 }} />
+                </View>
+
+              ) : (
+                /* ── MODO VISUALIZAÇÃO ── */
+                <>
+                  <View style={styles.traducaoCard}>
+                    <Text style={styles.traducaoLabel}>Tradução</Text>
+                    <Text style={styles.traducaoTexto}>{termo.traducao}</Text>
+                  </View>
+
+                  {termo.imagem ? (
+                    <>
+                      <Modal visible={imagemAmpliada} animationType="fade" transparent={true} onRequestClose={() => setImagemAmpliada(false)}>
+                        <TouchableOpacity style={styles.imagemOverlay} activeOpacity={1} onPress={() => setImagemAmpliada(false)}>
+                          <Image source={{ uri: termo.imagem }} style={styles.imagemAmpliada} resizeMode="contain" />
+                          <View style={styles.imagemFecharBtn}><CloseIcon /></View>
+                        </TouchableOpacity>
+                      </Modal>
+                      <Secao label="" styles={styles}>
+                        <TouchableOpacity onPress={() => setImagemAmpliada(true)} activeOpacity={0.85} style={styles.imagemContainer}>
+                          <Image source={{ uri: termo.imagem }} style={styles.image} resizeMode="cover" />
+                          <View style={styles.imagemLupa}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                              <circle cx="11" cy="11" r="7" />
+                              <path d="M21 21l-4.35-4.35" />
+                              <path d="M11 8v6M8 11h6" />
+                            </svg>
+                          </View>
+                        </TouchableOpacity>
+                      </Secao>
+                    </>
+                  ) : null}
+
+                  <Secao label="Descrição" styles={styles}>
+                    <Text style={styles.textoSecao}>{termo.definicao}</Text>
+                  </Secao>
+
+                  {termo.exemplo?.pt?.length > 0 && (
+                    <Secao label="Exemplos" styles={styles}>
+                      {renderizarExemplos()}
+                    </Secao>
+                  )}
+
+                  {temSinonimos && (
+                    <Secao label="Sinônimos" styles={styles}>
+                      <View style={styles.tagRow}>
+                        {termo.sinonimos.map((s: string, i: number) => (
+                          <View key={i} style={styles.tag}>
+                            <Text style={[styles.tagText, styles.tagTextSinonimo]}>{s}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </Secao>
+                  )}
+
+                  {temAntonimos && (
+                    <Secao label="Antônimos" styles={styles}>
+                      <View style={styles.tagRow}>
+                        {termo.antonimos.map((a: string, i: number) => (
+                          <View key={i} style={[styles.tag, styles.tagAntonimo]}>
+                            <Text style={[styles.tagText, styles.tagTextAntonimo]}>{a}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </Secao>
+                  )}
+
+                  <View style={{ height: 20 }} />
+                </>
+              )}
+            </ScrollView>
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+
+      {/* ── Modal de confirmação de delete ── */}
+      {confirmarDelete && (
+        <ModalConfirmarDelete
+          termo={termo}
+          onConfirmar={handleDeletar}
+          onCancelar={() => setConfirmarDelete(false)}
+          deletando={deletando}
+        />
+      )}
+    </>
   );
 }

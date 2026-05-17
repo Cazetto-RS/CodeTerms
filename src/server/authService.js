@@ -1,11 +1,11 @@
 import api from "./api.js";
- 
+
 // ─── Helpers de storage (web usa localStorage, nativo usa AsyncStorage) ───────
 // Como o projeto roda em web (Vercel), localStorage é suficiente.
- 
+
 const TOKEN_KEY = "ct_token";
-const USER_KEY  = "ct_user";
- 
+const USER_KEY = "ct_user";
+
 export const saveSession = (token, user) => {
   try {
     localStorage.setItem(TOKEN_KEY, token);
@@ -14,11 +14,11 @@ export const saveSession = (token, user) => {
     api.defaults.headers.common["Authorization"] = token;
   } catch (_) {}
 };
- 
+
 export const loadSession = () => {
   try {
     const token = localStorage.getItem(TOKEN_KEY);
-    const user  = JSON.parse(localStorage.getItem(USER_KEY) || "null");
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || "null");
     if (token && user) {
       api.defaults.headers.common["Authorization"] = token;
       return { token, user };
@@ -26,7 +26,7 @@ export const loadSession = () => {
   } catch (_) {}
   return null;
 };
- 
+
 export const clearSession = () => {
   try {
     localStorage.removeItem(TOKEN_KEY);
@@ -34,18 +34,17 @@ export const clearSession = () => {
     delete api.defaults.headers.common["Authorization"];
   } catch (_) {}
 };
- 
+
 // ─── Serviços de autenticação ─────────────────────────────────────────────────
- 
+
 export const AuthService = {
- 
   login: async ({ email, senha }) => {
     const response = await api.post("/user/login", { email, senha });
     const { token, user } = response.data;
     saveSession(token, user);
     return { token, user };
   },
- 
+
   register: async ({ nome, ano_nascimento, email, senha }) => {
     // a API espera o campo senha_hash (o backend faz o bcrypt internamente)
     await api.post("/user/", {
@@ -56,7 +55,15 @@ export const AuthService = {
       nivel_acesso: "padrao",
     });
   },
- 
+
+  updateSenha: async (id, { senha_atual, nova_senha }) => {
+    const response = await api.patch(`/user/${id}/senha`, {
+      senha_atual,
+      nova_senha,
+    });
+    return response.data;
+  },
+
   logout: () => {
     clearSession();
   },

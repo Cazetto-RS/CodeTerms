@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "./styleAuth";
 
 const primary = "#1A80B6";
 const textPrimary = "#131417";
@@ -107,6 +108,10 @@ export const getStyles = (width: number) => {
       padding: 20,
       gap: 0,
     },
+    scroll: {
+      flex: 1,
+      backgroundColor: Colors.background,
+    },
 
     // ─── Card de tradução em destaque ─────────────────────────────────────────
     traducaoCard: {
@@ -129,7 +134,28 @@ export const getStyles = (width: number) => {
       color: "#FFFFFF",
       fontWeight: "600",
     },
-
+    card: {
+      backgroundColor: Colors.white,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: Colors.border,
+      marginBottom: 16,
+      overflow: "hidden",
+      width: "100%"
+    },
+    cardTitle: {
+      fontSize: 14,
+      fontWeight: "700",
+      color: Colors.dark,
+      textTransform: "uppercase",
+      letterSpacing: 0.6,
+    },
+    cardSubtitle: {
+      fontSize: 14,
+      color: Colors.mutedText,
+      lineHeight: 22,
+      marginBottom: 28,
+    },
     // ─── Seções ───────────────────────────────────────────────────────────────
     secao: {
       backgroundColor: bgCard,

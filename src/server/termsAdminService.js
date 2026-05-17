@@ -50,6 +50,11 @@ export const TermsAdminService = {
     return data;
   },
 
+  updateTerm: async (id, dados) => {
+    const response = await api.put(`/terms/${id}`, dados);
+    return response.data;
+  },
+
   deleteTerm: async (id) => {
     const response = await api.delete(`/terms/${id}`);
     return response.data;

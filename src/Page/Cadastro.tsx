@@ -67,11 +67,10 @@ export default function Cadastro({
         email,
         senha,
       });
-
-      onNavegar("Login");
+      setSucesso(true);
     } catch (err) {
       console.error(err);
-      console.log("Erro ao criar conta");
+      setErro("Erro ao criar conta. Verifique os dados e tente novamente.");
     }
   };
 
@@ -83,12 +82,35 @@ export default function Cadastro({
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [senhaVisivel, setSenhaVisivel] = useState(false);
+  const [sucesso, setSucesso] = useState(false);
+  const [erro, setErro] = useState("");
 
   const anoAtual = new Date().getFullYear();
   const anoValido =
     anoNascimento.length === 4 &&
     Number(anoNascimento) >= 1900 &&
     Number(anoNascimento) <= anoAtual;
+
+  if (sucesso) {
+    return (
+      <ScrollView style={s.scroll} contentContainerStyle={s.center}>
+        <View style={s.card}>
+          <View style={[s.cardIcon, { backgroundColor: "#EDFAF3" }]}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D57" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 24, height: 24 }}>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </View>
+          <Text style={s.cardTitle}>Conta criada!</Text>
+          <Text style={s.cardSubtitle}>
+            Sua conta foi criada com sucesso.
+          </Text>
+          <TouchableOpacity style={s.btn} onPress={() => onNavegar("Login")}>
+            <Text style={s.btnText}>Fazer login</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  }
 
   return (
     <ScrollView style={s.scroll} contentContainerStyle={s.center}>
@@ -97,6 +119,12 @@ export default function Cadastro({
         <Text style={s.cardSubtitle}>
           Preencha os dados abaixo para se cadastrar no CodeTerms.
         </Text>
+
+        {!!erro && (
+          <View style={{ backgroundColor: "#FEF3F3", borderRadius: 8, padding: 12, marginBottom: 16 }}>
+            <Text style={{ fontSize: 13, color: "#C0514A" }}>{erro}</Text>
+          </View>
+        )}
 
         {/* Nome completo */}
         <View style={s.fieldGroup}>
@@ -118,7 +146,7 @@ export default function Cadastro({
             style={[
               s.input,
               anoNascimento.length === 4 &&
-                !anoValido && { borderColor: "#C0514A" },
+              !anoValido && { borderColor: "#C0514A" },
             ]}
             placeholder="Ex: 2005"
             placeholderTextColor="#9CA3AF"
