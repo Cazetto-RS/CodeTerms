@@ -44,7 +44,7 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 0 : 150
+      marginTop: isWeb ? 0 : 10
     },
     cardRecomendação: {
       width: "100%",
