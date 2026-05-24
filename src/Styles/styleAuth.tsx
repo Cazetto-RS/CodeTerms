@@ -22,6 +22,12 @@ export const getStyles = (width: number) => {
       
       backgroundColor: Colors.background,
     },
+    AlignRow: {
+      display: isWeb ? "flex" : undefined,
+      flexDirection: isWeb ? "row" : undefined,
+      alignItems: "center",
+      gap: isWeb ? 26 : undefined
+    },
     center: {
       flex: 1,
       flexDirection: "column",
@@ -33,6 +39,16 @@ export const getStyles = (width: number) => {
     card: {
       width: "100%",
       maxWidth: isWeb ? 440 : undefined,
+      backgroundColor: Colors.white,
+      borderRadius: 16,
+      padding: isWeb ? 40 : 28,
+      borderWidth: 1,
+      borderColor: Colors.border,
+      marginTop: isWeb ? 0 : 150
+    },
+    cardRecomendação: {
+      width: "100%",
+      maxWidth: isWeb ? 550 : undefined,
       backgroundColor: Colors.white,
       borderRadius: 16,
       padding: isWeb ? 40 : 28,
@@ -104,6 +120,17 @@ export const getStyles = (width: number) => {
       fontWeight: "600",
       color: Colors.text,
       marginBottom: 6,
+    },
+    inputRecomendarTermo: {
+      borderWidth: 1,
+      borderColor: Colors.border,
+      borderRadius: 8,
+      paddingHorizontal: 14,
+      paddingVertical: 11,
+      fontSize: 14,
+      color: Colors.text,
+      backgroundColor: Colors.white,
+      width: isWeb ? 220 : 290,
     },
     input: {
       borderWidth: 1,

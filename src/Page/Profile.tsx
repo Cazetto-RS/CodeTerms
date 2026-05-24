@@ -8,6 +8,18 @@ const ChevronIcon = () => (
     <polyline points="9 18 15 12 9 6" />
   </svg>
 );
+const RecomendaIcon = () => (
+  <svg
+    viewBox="0 -960 960 960"
+
+    fill="#1A80B6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ width: 20, height: 20 }}
+  >
+    <path d="M400-240q-33 0-56.5-23.5T320-320v-50q-57-39-88.5-100T200-600q0-117 81.5-198.5T480-880q117 0 198.5 81.5T760-600q0 69-31.5 129.5T640-370v50q0 33-23.5 56.5T560-240H400Zm0-80h160v-92l34-24q41-28 63.5-71.5T680-600q0-83-58.5-141.5T480-800q-83 0-141.5 58.5T280-600q0 49 22.5 92.5T366-436l34 24v92Zm0 240q-17 0-28.5-11.5T360-120v-40h240v40q0 17-11.5 28.5T560-80H400Zm80-520Z" />
+  </svg>
+);
 const EditIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="#1A80B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 18, height: 18 }}>
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -78,38 +90,38 @@ export default function Profile({
 
         <View style={s.alinhamento}>
 
-        {/* Avatar */}
-        <View style={s.header}>
-          <View style={s.avatar}>
-            <Text style={s.avatarInitials}>{getInitials(usuario.nome)}</Text>
-          </View>
-          <Text style={s.userName}>{usuario.nome}</Text>
-          <Text style={s.userEmail}>{usuario.email}</Text>
-          {isAdmin && (
-            <View style={{ marginTop: 10, backgroundColor: "#EBF5FB", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
-              <Text style={{ fontSize: 11, fontWeight: "700", color: "#1A80B6" }}>ADMIN</Text>
+          {/* Avatar */}
+          <View style={s.header}>
+            <View style={s.avatar}>
+              <Text style={s.avatarInitials}>{getInitials(usuario.nome)}</Text>
             </View>
-          )}
-        </View>
+            <Text style={s.userName}>{usuario.nome}</Text>
+            <Text style={s.userEmail}>{usuario.email}</Text>
+            {isAdmin && (
+              <View style={{ marginTop: 10, backgroundColor: "#EBF5FB", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
+                <Text style={{ fontSize: 11, fontWeight: "700", color: "#1A80B6" }}>ADMIN</Text>
+              </View>
+            )}
+          </View>
 
-        {/* Dados pessoais */}
-        <View style={[s.cardDados, { marginBottom: 0 }]}>
-          <View style={s.cardHeader}>
-            <Text style={s.cardTitle}>Dados pessoais</Text>
+          {/* Dados pessoais */}
+          <View style={[s.cardDados, { marginBottom: 0 }]}>
+            <View style={s.cardHeader}>
+              <Text style={s.cardTitle}>Dados pessoais</Text>
+            </View>
+            <View style={s.infoRow}>
+              <Text style={s.infoLabel}>Nome completo</Text>
+              <Text style={s.infoValue}>{usuario.nome}</Text>
+            </View>
+            <View style={s.infoRow}>
+              <Text style={s.infoLabel}>Ano de nascimento</Text>
+              <Text style={s.infoValue}>{usuario.ano_nascimento}</Text>
+            </View>
+            <View style={s.infoRowLast}>
+              <Text style={s.infoLabel}>E-mail</Text>
+              <Text style={s.infoValue}>{usuario.email}</Text>
+            </View>
           </View>
-          <View style={s.infoRow}>
-            <Text style={s.infoLabel}>Nome completo</Text>
-            <Text style={s.infoValue}>{usuario.nome}</Text>
-          </View>
-          <View style={s.infoRow}>
-            <Text style={s.infoLabel}>Ano de nascimento</Text>
-            <Text style={s.infoValue}>{usuario.ano_nascimento}</Text>
-          </View>
-          <View style={s.infoRowLast}>
-            <Text style={s.infoLabel}>E-mail</Text>
-            <Text style={s.infoValue}>{usuario.email}</Text>
-          </View>
-        </View>
         </View>
       </View>
 
@@ -118,10 +130,10 @@ export default function Profile({
         <View style={s.cardHeader}>
           <Text style={s.cardTitle}>Conta</Text>
         </View>
-        <TouchableOpacity style={s.actionBtn}>
+        <TouchableOpacity style={s.actionBtn} onPress={() => onNavegar("RecomendarTermo")}>
           <View style={s.actionBtnLeft}>
-            <View style={s.actionBtnIcon}><EditIcon /></View>
-            <Text style={s.actionBtnText}>Editar informações</Text>
+            <View style={s.actionBtnIcon}><RecomendaIcon /></View>
+            <Text style={s.actionBtnText}>Recomendar termo</Text>
           </View>
           <ChevronIcon />
         </TouchableOpacity>
@@ -140,10 +152,17 @@ export default function Profile({
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>Administração</Text>
           </View>
-          <TouchableOpacity style={s.actionBtnLast} onPress={() => onNavegar("NovoTermo")}>
+          <TouchableOpacity style={s.actionBtn} onPress={() => onNavegar("NovoTermo")}>
             <View style={s.actionBtnLeft}>
               <View style={s.actionBtnIcon}><PlusIcon /></View>
               <Text style={s.actionBtnText}>Adicionar novo termo</Text>
+            </View>
+            <ChevronIcon />
+          </TouchableOpacity>
+          <TouchableOpacity style={s.actionBtnLast} onPress={() => onNavegar("RecomendarTermo")}>
+            <View style={s.actionBtnLeft}>
+              <View style={s.actionBtnIcon}><RecomendaIcon /></View>
+              <Text style={s.actionBtnText}>Ver recomendações</Text>
             </View>
             <ChevronIcon />
           </TouchableOpacity>
