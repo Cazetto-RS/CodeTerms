@@ -10,12 +10,14 @@ import Cadastro from "../Page/Cadastro";
 import NovoTermo from "../Page/NovoTermo";
 import AlterarSenha from "../Page/AlterarSenha";
 import RecomendarTermo from "../Page/RecomendarTermo";
+import Recomendacoes from "../Page/Recomendacoes";
 
-export type Page = "Home" | "Sobre" | "Perfil" | "Login" | "Cadastro" | "NovoTermo" | "AlterarSenha" | "RecomendarTermo";
+export type Page = "Home" | "Sobre" | "Perfil" | "Login" | "Cadastro" | "NovoTermo" | "AlterarSenha" | "RecomendarTermo" | "Recomendacoes";
 
 export default function AppNavigator() {
   const [paginaAtiva, setPaginaAtiva] = useState<Page>("Home");
   const [usuario, setUsuario] = useState<any>(null);
+  const [params,  setParams]  = useState<any>(null);
 
   // Restaura sessão ao abrir o app
   useEffect(() => {
@@ -24,8 +26,13 @@ export default function AppNavigator() {
   }, []);
 
   // Navegação — Login passa o usuário ao navegar para Perfil
-  const navegar = (pagina: Page, user?: any) => {
-    if (user) setUsuario(user);
+  const navegar = (pagina: Page, userOrParams?: any) => {
+    // Se vier do login, traz { id, nome, email, ... } com campo nivel_acesso
+    if (userOrParams?.nivel_acesso !== undefined) {
+      setUsuario(userOrParams);
+    } else if (userOrParams) {
+      setParams(userOrParams);
+    }
     setPaginaAtiva(pagina);
   };
 
@@ -36,9 +43,10 @@ export default function AppNavigator() {
       case "Perfil":    return <Profile onNavegar={navegar} usuario={usuario} />;
       case "Login":     return <Login onNavegar={navegar} />;
       case "Cadastro":  return <Cadastro onNavegar={navegar} />;
-      case "NovoTermo": return <NovoTermo onNavegar={navegar} />;
+      case "NovoTermo":      return <NovoTermo onNavegar={navegar} params={params} />;
       case "AlterarSenha": return <AlterarSenha onNavegar={navegar} usuario={usuario} />;
       case "RecomendarTermo": return <RecomendarTermo onNavegar={navegar} usuario={usuario} />;
+      case "Recomendacoes":    return <Recomendacoes onNavegar={navegar} />;
     } 
   };
 

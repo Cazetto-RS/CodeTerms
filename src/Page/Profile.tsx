@@ -137,7 +137,7 @@ export default function Profile({
           </View>
           <ChevronIcon />
         </TouchableOpacity>
-        <TouchableOpacity style={s.actionBtn} onPress={() => onNavegar("RecomendarTermo")}>
+        <TouchableOpacity style={s.actionBtn} onPress={() => onNavegar("Recomendacoes")}>
           <View style={s.actionBtnLeft}>
             <View style={s.actionBtnIcon}><RecomendaIcon /></View>
             <Text style={s.actionBtnText}>Ver recomendações</Text>

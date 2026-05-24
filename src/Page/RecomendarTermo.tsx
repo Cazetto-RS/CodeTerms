@@ -5,6 +5,7 @@ import {
 } from "react-native";
 import { getStyles } from "../Styles/styleAuth";
 import { AuthService } from "../server/authService";
+import { RecomendacoesService } from "../server/recomendacoesService";
 
 
 export default function RecomendarTermo({
@@ -17,9 +18,35 @@ export default function RecomendarTermo({
     const { width } = useWindowDimensions();
     const s = getStyles(width);
 
-    const [loading, setLoading] = useState(false);
-    const [erro, setErro] = useState("");
-    const [sucesso, setSucesso] = useState(false);
+    const [termoEn,      setTermoEn]      = useState("");
+    const [termoPt,      setTermoPt]      = useState("");
+    const [significado,  setSignificado]  = useState("");
+    const [motivo,       setMotivo]       = useState("");
+    const [loading,      setLoading]      = useState(false);
+    const [erro,         setErro]         = useState("");
+    const [sucesso,      setSucesso]      = useState(false);
+
+    const handleEnviar = async () => {
+        setErro("");
+        if (!termoEn || !termoPt || !significado || !motivo) {
+            setErro("Preencha todos os campos."); return;
+        }
+        setLoading(true);
+        try {
+            await RecomendacoesService.create({
+                termo_en: termoEn,
+                termo_pt: termoPt,
+                significado,
+                motivo_contexto: motivo,
+            });
+            setSucesso(true);
+        } catch (e: any) {
+            const msg = e?.response?.data?.error ?? e?.message ?? "Erro ao enviar recomendação.";
+            setErro(String(msg));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (sucesso) {
         return (
@@ -65,6 +92,7 @@ export default function RecomendarTermo({
                             <TextInput
                                 style={[s.inputRecomendarTermo]}
                                 placeholder="Insira o termo em inglês" placeholderTextColor="#9CA3AF"
+                                value={termoEn} onChangeText={setTermoEn}
                             />
                         </View>
                     </View>
@@ -76,6 +104,7 @@ export default function RecomendarTermo({
                             <TextInput
                                 style={[s.inputRecomendarTermo]}
                                 placeholder="Insira o termo em português" placeholderTextColor="#9CA3AF"
+                                value={termoPt} onChangeText={setTermoPt}
                             />
                         </View>
                     </View>
@@ -89,6 +118,7 @@ export default function RecomendarTermo({
                             style={[
                                 s.input, { paddingRight: 44}]}
                             placeholder="Insira o significado do termo" placeholderTextColor="#9CA3AF"
+                            value={significado} onChangeText={setSignificado}
                         />
                     </View>
                 </View>
@@ -103,11 +133,12 @@ export default function RecomendarTermo({
                                 
                             ]}
                             placeholder="Explique o motivo da recomendação" placeholderTextColor="#9CA3AF"
+                            value={motivo} onChangeText={setMotivo}
                         />
                     </View>
                 </View>
 
-                <TouchableOpacity style={s.btn} disabled={loading}>
+                <TouchableOpacity style={s.btn} onPress={handleEnviar} disabled={loading}>
                     {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnText}>Enviar recomendação</Text>}
                 </TouchableOpacity>
 

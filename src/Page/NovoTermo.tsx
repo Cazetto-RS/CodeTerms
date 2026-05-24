@@ -38,11 +38,7 @@ const Campo = ({ label, hint = "", ...props }: any) => {
   );
 };
 
-export default function NovoTermo({
-  onNavegar,
-}: {
-  onNavegar: (pagina: any) => void;
-}) {
+export default function NovoTermo({ onNavegar, params }: { onNavegar: (pagina: any) => void; params?: any }) {
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 
