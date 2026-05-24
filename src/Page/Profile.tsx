@@ -137,6 +137,13 @@ export default function Profile({
           </View>
           <ChevronIcon />
         </TouchableOpacity>
+        <TouchableOpacity style={s.actionBtn} onPress={() => onNavegar("RecomendarTermo")}>
+          <View style={s.actionBtnLeft}>
+            <View style={s.actionBtnIcon}><RecomendaIcon /></View>
+            <Text style={s.actionBtnText}>Ver recomendações</Text>
+          </View>
+          <ChevronIcon />
+        </TouchableOpacity>
         <TouchableOpacity style={s.actionBtnLast} onPress={() => onNavegar("AlterarSenha")}>
           <View style={s.actionBtnLeft}>
             <View style={s.actionBtnIcon}><LockIcon /></View>
@@ -156,13 +163,6 @@ export default function Profile({
             <View style={s.actionBtnLeft}>
               <View style={s.actionBtnIcon}><PlusIcon /></View>
               <Text style={s.actionBtnText}>Adicionar novo termo</Text>
-            </View>
-            <ChevronIcon />
-          </TouchableOpacity>
-          <TouchableOpacity style={s.actionBtnLast} onPress={() => onNavegar("RecomendarTermo")}>
-            <View style={s.actionBtnLeft}>
-              <View style={s.actionBtnIcon}><RecomendaIcon /></View>
-              <Text style={s.actionBtnText}>Ver recomendações</Text>
             </View>
             <ChevronIcon />
           </TouchableOpacity>
