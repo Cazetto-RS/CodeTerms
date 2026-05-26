@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -59,6 +59,16 @@ export default function Cadastro({
 }: {
   onNavegar: (pagina: any) => void;
 }) {
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = "Cadastro | CodeTerms"
+    }
+
+    return () => {
+      document.title = "CodeTerms"
+    }
+  })
+
   const handleRegister = async () => {
     try {
       await AuthService.register({

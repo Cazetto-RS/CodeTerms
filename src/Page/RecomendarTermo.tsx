@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View, Text, TextInput, TouchableOpacity,
     ScrollView, useWindowDimensions, ActivityIndicator,
@@ -15,16 +15,26 @@ export default function RecomendarTermo({
     onNavegar: (pagina: any) => void;
     usuario: any;
 }) {
+    useEffect(() => {
+        if (typeof document !== "undefined") {
+            document.title = "Recomendar | CodeTerms"
+        }
+
+        return () => {
+            document.title = "CodeTerms"
+        }
+    })
+
     const { width } = useWindowDimensions();
     const s = getStyles(width);
 
-    const [termoEn,      setTermoEn]      = useState("");
-    const [termoPt,      setTermoPt]      = useState("");
-    const [significado,  setSignificado]  = useState("");
-    const [motivo,       setMotivo]       = useState("");
-    const [loading,      setLoading]      = useState(false);
-    const [erro,         setErro]         = useState("");
-    const [sucesso,      setSucesso]      = useState(false);
+    const [termoEn, setTermoEn] = useState("");
+    const [termoPt, setTermoPt] = useState("");
+    const [significado, setSignificado] = useState("");
+    const [motivo, setMotivo] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [erro, setErro] = useState("");
+    const [sucesso, setSucesso] = useState(false);
 
     const handleEnviar = async () => {
         setErro("");
@@ -116,7 +126,7 @@ export default function RecomendarTermo({
                     <View style={{ position: "relative" }}>
                         <TextInput
                             style={[
-                                s.input, { paddingRight: 44}]}
+                                s.input, { paddingRight: 44 }]}
                             placeholder="Insira o significado do termo" placeholderTextColor="#9CA3AF"
                             value={significado} onChangeText={setSignificado}
                         />
@@ -130,7 +140,7 @@ export default function RecomendarTermo({
                         <TextInput
                             style={[
                                 s.input, { paddingRight: 44 },
-                                
+
                             ]}
                             placeholder="Explique o motivo da recomendação" placeholderTextColor="#9CA3AF"
                             value={motivo} onChangeText={setMotivo}
@@ -148,8 +158,8 @@ export default function RecomendarTermo({
                     </TouchableOpacity>
                 </View>
             </View>
-            
-                <View style={{height: 30, width: 20}}></View>
+
+            <View style={{ height: 30, width: 20 }}></View>
         </ScrollView>
     );
 }

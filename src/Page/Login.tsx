@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View, Text, TextInput, TouchableOpacity,
   ScrollView, useWindowDimensions, ActivityIndicator,
@@ -26,6 +26,16 @@ const EyeIcon = ({ visible }: { visible: boolean }) => visible ? (
 );
 
 export default function Login({ onNavegar }: { onNavegar: (pagina: any, user?: any) => void }) {
+    useEffect(() => {
+      if (typeof document !== "undefined") {
+        document.title = "Login | CodeTerms"
+      }
+  
+      return () => {
+        document.title = "CodeTerms"
+      }
+    })
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 

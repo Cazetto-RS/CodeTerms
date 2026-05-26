@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions } from "react-native";
 import { getStyles } from "../Styles/styleProfile";
 import { AuthService } from "../server/authService";
@@ -58,6 +58,17 @@ export default function Profile({
   onNavegar: (pagina: any) => void;
   usuario: any;
 }) {
+
+  useEffect(() => {
+    if (typeof document !== "undefined"){
+      document.title = "Perfil | CodeTerms"
+    }
+
+    return() => {
+      document.title = "CodeTerms"
+    }
+  })
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 

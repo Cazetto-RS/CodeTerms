@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -39,6 +39,16 @@ const Campo = ({ label, hint = "", ...props }: any) => {
 };
 
 export default function NovoTermo({ onNavegar, params }: { onNavegar: (pagina: any) => void; params?: any }) {
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = "Novo Termo | CodeTerms"
+    }
+
+    return () => {
+      document.title = "CodeTerms"
+    }
+  })
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 
@@ -79,9 +89,9 @@ export default function NovoTermo({ onNavegar, params }: { onNavegar: (pagina: a
     const toArr = (s: string) =>
       s.trim()
         ? s
-            .split(",")
-            .map((x) => x.trim())
-            .filter(Boolean)
+          .split(",")
+          .map((x) => x.trim())
+          .filter(Boolean)
         : null;
 
     setLoading(true);

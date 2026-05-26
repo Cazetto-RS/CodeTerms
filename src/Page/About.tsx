@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Linking, useWindowDimensions } from "react-native";
 import { getStyles } from "../Styles/styleAbout";
 
@@ -40,21 +40,31 @@ const ArrowIcon = ({ stroke = "#1A80B6" }) => (
 // ─── Dados ────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { num: "30+",      lbl: "Anos de história"    },
+  { num: "30+", lbl: "Anos de história" },
   { num: "Centenas", lbl: "De jovens atendidos" },
-  { num: "Tatuí/SP", lbl: "Coração da ação"     },
+  { num: "Tatuí/SP", lbl: "Coração da ação" },
 ];
 
 const PILLARS = [
-  { icon: <BookIcon />,  title: "Dicionário técnico",      description: "Termos em inglês da tecnologia com definições claras, exemplos reais e pronúncia — do básico ao avançado." },
-  { icon: <CodeIcon />,  title: "Foco em empregabilidade", description: "Vocabulário alinhado às exigências do mercado de TI, preparando jovens para entrevistas e ambientes profissionais." },
-  { icon: <UsersIcon />, title: "Linguagem acessível",     description: "Conteúdo pensado para quem está começando — sem jargão desnecessário, com exemplos do dia a dia." },
-  { icon: <GlobeIcon />, title: "Bilíngue e interativo",   description: "Exemplos em português e inglês lado a lado, com recurso de ouvir a pronúncia correta de cada termo." },
+  { icon: <BookIcon />, title: "Dicionário técnico", description: "Termos em inglês da tecnologia com definições claras, exemplos reais e pronúncia — do básico ao avançado." },
+  { icon: <CodeIcon />, title: "Foco em empregabilidade", description: "Vocabulário alinhado às exigências do mercado de TI, preparando jovens para entrevistas e ambientes profissionais." },
+  { icon: <UsersIcon />, title: "Linguagem acessível", description: "Conteúdo pensado para quem está começando — sem jargão desnecessário, com exemplos do dia a dia." },
+  { icon: <GlobeIcon />, title: "Bilíngue e interativo", description: "Exemplos em português e inglês lado a lado, com recurso de ouvir a pronúncia correta de cada termo." },
 ];
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default function About() {
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = "Sobre | CodeTerms"
+    }
+
+    return () => {
+      document.title = "CodeTerms"
+    }
+  })
+
   const { width } = useWindowDimensions();
   const style = getStyles(width);
 

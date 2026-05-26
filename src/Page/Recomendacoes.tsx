@@ -157,6 +157,16 @@ function CardRecomendacao({ item, onStatus, onDeletar, onCriar, loadingId, s }: 
 export default function Recomendacoes({ onNavegar }: {
   onNavegar: (pagina: any, params?: any) => void;
 }) {
+    useEffect(() => {
+      if (typeof document !== "undefined"){
+        document.title = "Recomendações | CodeTerms"
+      }
+  
+      return() => {
+        document.title = "CodeTerms"
+      }
+    })
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 

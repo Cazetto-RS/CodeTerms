@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View, Text, TextInput, TouchableOpacity,
   ScrollView, useWindowDimensions, ActivityIndicator,
@@ -32,18 +32,28 @@ export default function AlterarSenha({
   onNavegar: (pagina: any) => void;
   usuario: any;
 }) {
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.title = "Alterar Senha | CodeTerms"
+    }
+
+    return () => {
+      document.title = "CodeTerms"
+    }
+  })
+
   const { width } = useWindowDimensions();
   const s = getStyles(width);
 
-  const [senhaAtual,       setSenhaAtual]       = useState("");
-  const [novaSenha,        setNovaSenha]        = useState("");
-  const [confirmarSenha,   setConfirmarSenha]   = useState("");
-  const [verAtual,         setVerAtual]         = useState(false);
-  const [verNova,          setVerNova]          = useState(false);
-  const [verConfirmar,     setVerConfirmar]     = useState(false);
-  const [loading,          setLoading]          = useState(false);
-  const [erro,             setErro]             = useState("");
-  const [sucesso,          setSucesso]          = useState(false);
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [verAtual, setVerAtual] = useState(false);
+  const [verNova, setVerNova] = useState(false);
+  const [verConfirmar, setVerConfirmar] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState(false);
 
   const handleSalvar = async () => {
     setErro("");
@@ -65,7 +75,7 @@ export default function AlterarSenha({
     try {
       await AuthService.updateSenha(usuario.id, {
         senha_atual: senhaAtual,
-        nova_senha:  novaSenha,
+        nova_senha: novaSenha,
       });
       setSucesso(true);
     } catch (e: any) {
