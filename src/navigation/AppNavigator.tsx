@@ -27,11 +27,14 @@ export default function AppNavigator() {
 
   // Navegação — Login passa o usuário ao navegar para Perfil
   const navegar = (pagina: Page, userOrParams?: any) => {
-    // Se vier do login, traz { id, nome, email, ... } com campo nivel_acesso
+    // Se vier do login, traz { id, nome, email, ... } com campo nivel_acesso.
+    // Parâmetros de navegação são limpos quando não houver payload para evitar
+    // que uma recomendação antiga preencha um novo termo aberto pelo menu.
     if (userOrParams?.nivel_acesso !== undefined) {
       setUsuario(userOrParams);
-    } else if (userOrParams) {
-      setParams(userOrParams);
+      setParams(null);
+    } else {
+      setParams(userOrParams ?? null);
     }
     setPaginaAtiva(pagina);
   };

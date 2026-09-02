@@ -67,6 +67,20 @@ export default function NovoTermo({ onNavegar, params }: { onNavegar: (pagina: a
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState(false);
 
+  // Quando a tela é aberta a partir de uma recomendação, aproveita os dados
+  // que já foram informados pelo usuário e preenche os campos correspondentes.
+  useEffect(() => {
+    setTermo(params?.termo ?? "");
+    setTraducao(params?.traducao ?? "");
+    setDefinicao(params?.definicao ?? "");
+    setPronuncia(params?.pronuncia ?? "");
+    setSilabas(params?.silabas ?? "");
+    setSinonimos(params?.sinonimos ?? "");
+    setAntonimos(params?.antonimos ?? "");
+    setExemploEn(params?.exemploEn ?? "");
+    setExemploPt(params?.exemploPt ?? "");
+  }, [params]);
+
   const handleImagem = (e: any) => {
     const file = e.target.files?.[0];
     if (file) setImagem(file);

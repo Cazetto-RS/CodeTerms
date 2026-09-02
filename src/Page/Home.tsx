@@ -108,8 +108,9 @@ export default function Home({ usuario }: { usuario?: any }) {
   };
 
   const termosOrdenados = [...termos].sort((a, b) => {
-    if (ordem === "az") return a.traducao.localeCompare(b.traducao);
-    if (ordem === "za") return b.traducao.localeCompare(a.traducao);
+    // A ordenação alfabética usa o nome do termo em inglês (campo `termo`).
+    if (ordem === "az") return a.termo.localeCompare(b.termo);
+    if (ordem === "za") return b.termo.localeCompare(a.termo);
     return a.id - b.id;
   });
 
@@ -218,7 +219,12 @@ export default function Home({ usuario }: { usuario?: any }) {
           {/* Grid de cards */}
           <View style={styles.Terms_MainDiv}>
             {itensPaginados.map((item) => (
-              <View key={item.id} style={styles.TermsDiv}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.TermsDiv}
+                onPress={() => abrirModal(item)}
+                activeOpacity={0.8}
+              >
                 <Text style={styles.title}>{item.termo}</Text>
                 <Text style={styles.subtitle}>{item.traducao}</Text>
 
@@ -228,14 +234,11 @@ export default function Home({ usuario }: { usuario?: any }) {
                     : item.definicao}
                 </Text>
 
-                <TouchableOpacity
-                  onPress={() => abrirModal(item)}
-                  style={styles.moreDiv}
-                >
+                <View style={styles.moreDiv}>
                   <Text style={styles.more}>Ver mais</Text>
                   <ArrowIcon />
-                </TouchableOpacity>
-              </View>
+                </View>
+              </TouchableOpacity>
             ))}
           </View>
 
