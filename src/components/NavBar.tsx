@@ -42,7 +42,7 @@ export default function Navbar({ paginaAtiva, onNavegar, usuario }: NavbarProps)
     Linking.openURL(url).catch((err) => console.error("Erro ao abrir link", err));
 
   return (
-    <View>
+    <View style={{ flexShrink: 0 }}>
       {/* ── Barra de redes sociais ── */}
       <View style={styles.Redes}>
         <View style={styles.grupoRedes}>

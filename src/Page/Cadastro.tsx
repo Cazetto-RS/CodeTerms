@@ -67,20 +67,46 @@ export default function Cadastro({
     return () => {
       document.title = "CodeTerms"
     }
-  })
+  }, [])
+
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+    setErro("");
+    const nomeLimpo = nome.trim();
+    const emailLimpo = email.trim().toLowerCase();
+
+    if (!nomeLimpo || !anoNascimento || !emailLimpo || !senha) {
+      setErro("Preencha todos os campos.");
+      return;
+    }
+    if (!anoValido) {
+      setErro("Informe um ano de nascimento válido.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo)) {
+      setErro("Informe um e-mail válido.");
+      return;
+    }
+    if (senha.length < 6) {
+      setErro("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+
+    setLoading(true);
     try {
       await AuthService.register({
-        nome,
+        nome: nomeLimpo,
         ano_nascimento: anoNascimento,
-        email,
+        email: emailLimpo,
         senha,
       });
       setSucesso(true);
-    } catch (err) {
-      console.error(err);
-      setErro("Erro ao criar conta. Verifique os dados e tente novamente.");
+    } catch (err: any) {
+      const msg = err?.response?.data?.error ?? "Erro ao criar conta. Verifique os dados e tente novamente.";
+      setErro(String(msg));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -209,8 +235,8 @@ export default function Cadastro({
         </View>
 
         {/* Botão */}
-        <TouchableOpacity style={s.btn} onPress={handleRegister}>
-          <Text style={s.btnText}>Criar conta</Text>
+        <TouchableOpacity style={[s.btn, loading && { opacity: 0.7 }]} onPress={handleRegister} disabled={loading}>
+          <Text style={s.btnText}>{loading ? "Criando conta..." : "Criar conta"}</Text>
         </TouchableOpacity>
 
         {/* Rodapé */}

@@ -63,7 +63,7 @@ export default function About() {
     return () => {
       document.title = "CodeTerms"
     }
-  })
+  }, [])
 
   const { width } = useWindowDimensions();
   const style = getStyles(width);

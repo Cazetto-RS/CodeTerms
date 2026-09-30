@@ -17,6 +17,7 @@ export const Colors = {
 
 export const getStyles = (width: number) => {
   const isWeb = width > 768;
+  const isWide = width >= 1100;
 
   return StyleSheet.create({
     container: {
@@ -36,7 +37,8 @@ export const getStyles = (width: number) => {
 
     // ─── Busca ─────────────────────────────────────────────────────────────
     searchDiv: {
-      width: isWeb ? "60%" : "100%",
+      width: "100%",
+      maxWidth: 900,
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
@@ -47,7 +49,7 @@ export const getStyles = (width: number) => {
       borderRadius: 10,
       borderWidth: 1,
       borderColor: "#D8DCE6",
-      marginBottom: isWeb ? -38 : 28,
+      marginBottom: 28,
       zIndex: 999,
       ...Platform.select({
         web: { boxShadow: "0 1px 3px rgba(0,0,0,0.05)" },
@@ -87,7 +89,7 @@ export const getStyles = (width: number) => {
       gap: 14,
     },
     TermsDiv: {
-      width: isWeb ? "31.5%" : "100%",
+      width: isWide ? "31.5%" : isWeb ? "48%" : "100%",
       backgroundColor: "#FFFFFF",
       borderRadius: 12,
       borderWidth: 1,

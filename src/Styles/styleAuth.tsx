@@ -29,7 +29,7 @@ export const getStyles = (width: number) => {
       gap: isWeb ? 26 : undefined
     },
     center: {
-      flex: 1,
+      flexGrow: 1,
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
@@ -54,7 +54,7 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 0 : 150
+      marginTop: 0
     },
     CardDirecao: {
       flex: 1,
@@ -69,7 +69,7 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 30 : 750
+      marginTop: 0
     },
 
     cardCadastro: {
@@ -80,7 +80,7 @@ export const getStyles = (width: number) => {
       padding: isWeb ? 40 : 28,
       borderWidth: 1,
       borderColor: Colors.border,
-      marginTop: isWeb ? 30 : 150
+      marginTop: 0
     },
     espacamento: {
       width: 20,
@@ -130,7 +130,8 @@ export const getStyles = (width: number) => {
       fontSize: 14,
       color: Colors.text,
       backgroundColor: Colors.white,
-      width: isWeb ? 220 : 290,
+      width: "100%",
+      minWidth: isWeb ? 220 : undefined,
     },
     input: {
       borderWidth: 1,

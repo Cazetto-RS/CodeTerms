@@ -40,7 +40,7 @@ export default function AlterarSenha({
     return () => {
       document.title = "CodeTerms"
     }
-  })
+  }, [])
 
   const { width } = useWindowDimensions();
   const s = getStyles(width);

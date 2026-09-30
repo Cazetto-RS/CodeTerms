@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { loadSession } from "../server/authService";
 import Navbar from "../components/NavBar";
 import Home from "../Page/Home";
@@ -55,8 +55,14 @@ export default function AppNavigator() {
 
   return (
     <View style={styles.container}>
-      <Navbar paginaAtiva={paginaAtiva} onNavegar={navegar} usuario={usuario} />
-      <View style={styles.pagina}>
+      {/* O header participa do fluxo normal do layout. flexShrink: 0 impede que
+          as páginas/ScrollViews avancem por baixo dele em telas pequenas. */}
+      <View style={styles.header}>
+        <Navbar paginaAtiva={paginaAtiva} onNavegar={navegar} usuario={usuario} />
+      </View>
+      {/* A página recebe somente o espaço restante da viewport. A key força
+          uma nova área de rolagem ao navegar e evita herdar a posição anterior. */}
+      <View key={paginaAtiva} style={styles.pagina}>
         {renderPagina()}
       </View>
     </View>
@@ -64,6 +70,20 @@ export default function AppNavigator() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F5F7FA" },
-  pagina:    { flex: 1 },
+  container: {
+    flex: 1,
+    minHeight: 0,
+    backgroundColor: "#F5F7FA",
+    ...Platform.select({ web: { height: "100vh", overflow: "hidden" } as any }),
+  },
+  header: {
+    flexShrink: 0,
+    zIndex: 10,
+    backgroundColor: "#FFFFFF",
+  },
+  pagina: {
+    flex: 1,
+    minHeight: 0,
+    overflow: "hidden",
+  },
 });

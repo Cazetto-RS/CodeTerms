@@ -47,7 +47,7 @@ export default function NovoTermo({ onNavegar, params }: { onNavegar: (pagina: a
     return () => {
       document.title = "CodeTerms"
     }
-  })
+  }, [])
 
   const { width } = useWindowDimensions();
   const s = getStyles(width);

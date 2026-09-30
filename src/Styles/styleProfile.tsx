@@ -16,7 +16,7 @@ export const Colors = {
 
 export const getStyles = (width: number) => {
   const isWeb = width > 768;
-  const hPad = isWeb ? Math.min((width - 700) / 2, 120) : 20;
+  const hPad = isWeb ? Math.max(24, Math.min((width - 1100) / 2, 96)) : 16;
 
   return StyleSheet.create({
     scroll: {
@@ -57,7 +57,7 @@ export const getStyles = (width: number) => {
       alignItems: "center",
       marginBottom: 16,
       width: isWeb ? "20%" : "100%",
-      height: isWeb ? "95%" : "50%"
+      minHeight: isWeb ? 280 : undefined
     },
     avatar: {
       width: 72,
@@ -93,7 +93,7 @@ export const getStyles = (width: number) => {
       borderColor: Colors.border,
       overflow: "hidden",
       width: isWeb ? "78%" : "100%",
-      height: isWeb ? "95%" : "100%",
+      minHeight: isWeb ? 280 : undefined,
       justifyContent: "center"
 
     },

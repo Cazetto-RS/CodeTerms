@@ -67,7 +67,7 @@ export default function Profile({
     return() => {
       document.title = "CodeTerms"
     }
-  })
+  }, [])
 
   const { width } = useWindowDimensions();
   const s = getStyles(width);
