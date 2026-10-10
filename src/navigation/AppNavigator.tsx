@@ -27,6 +27,11 @@ export default function AppNavigator() {
 
   // Navegação — Login passa o usuário ao navegar para Perfil
   const navegar = (pagina: Page, userOrParams?: any) => {
+    const admin = usuario?.nivel_acesso === "admin";
+    if (pagina === "NovoTermo" && !admin) {
+      setPaginaAtiva(usuario ? "Perfil" : "Login");
+      return;
+    }
     // Se vier do login, traz { id, nome, email, ... } com campo nivel_acesso.
     // Parâmetros de navegação são limpos quando não houver payload para evitar
     // que uma recomendação antiga preencha um novo termo aberto pelo menu.
@@ -46,10 +51,10 @@ export default function AppNavigator() {
       case "Perfil":    return <Profile onNavegar={navegar} usuario={usuario} />;
       case "Login":     return <Login onNavegar={navegar} />;
       case "Cadastro":  return <Cadastro onNavegar={navegar} />;
-      case "NovoTermo":      return <NovoTermo onNavegar={navegar} params={params} />;
+      case "NovoTermo":      return usuario?.nivel_acesso === "admin" ? <NovoTermo onNavegar={navegar} params={params} /> : <Profile onNavegar={navegar} usuario={usuario} />;
       case "AlterarSenha": return <AlterarSenha onNavegar={navegar} usuario={usuario} />;
       case "RecomendarTermo": return <RecomendarTermo onNavegar={navegar} usuario={usuario} />;
-      case "Recomendacoes":    return <Recomendacoes onNavegar={navegar} />;
+      case "Recomendacoes":    return <Recomendacoes onNavegar={navegar} isAdmin={usuario?.nivel_acesso === "admin"} />;
     } 
   };
 

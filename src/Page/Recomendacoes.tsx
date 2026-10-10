@@ -71,13 +71,14 @@ const TrashIcon = () => (
 
 // ─── Card de recomendação ─────────────────────────────────────────────────────
 
-function CardRecomendacao({ item, onStatus, onDeletar, onCriar, loadingId, s }: {
+function CardRecomendacao({ item, onStatus, onDeletar, onCriar, loadingId, s, isAdmin }: {
   item: Recomendacao;
   onStatus: (id: number, status: Status) => void;
   onDeletar: (id: number) => void;
   onCriar: (item: Recomendacao) => void;
   loadingId: number | null;
   s: ReturnType<typeof getStyles>;
+  isAdmin: boolean;
 }) {
   const cfg = STATUS_CONFIG[item.status];
   const carregando = loadingId === item.id;
@@ -117,7 +118,7 @@ function CardRecomendacao({ item, onStatus, onDeletar, onCriar, loadingId, s }: 
       </View>
 
       {/* Ações */}
-      {carregando ? (
+      {isAdmin && (carregando ? (
         <ActivityIndicator color={Colors.primary} style={{ alignSelf: "center" }} />
       ) : (
         <View style={s.acoesRow}>
@@ -147,15 +148,16 @@ function CardRecomendacao({ item, onStatus, onDeletar, onCriar, loadingId, s }: 
             <Text style={s.btnCriarTexto}>Criar termo</Text>
           </TouchableOpacity>
         </View>
-      )}
+      ))}
     </View>
   );
 }
 
 // ─── Página principal ─────────────────────────────────────────────────────────
 
-export default function Recomendacoes({ onNavegar }: {
+export default function Recomendacoes({ onNavegar, isAdmin }: {
   onNavegar: (pagina: any, params?: any) => void;
+  isAdmin: boolean;
 }) {
     useEffect(() => {
       if (typeof document !== "undefined"){
@@ -191,6 +193,7 @@ export default function Recomendacoes({ onNavegar }: {
   };
 
   const handleStatus = async (id: number, status: Status) => {
+    if (!isAdmin) return;
     setLoadingId(id);
     try {
       const atualizado = await RecomendacoesService.updateStatus(id, status);
@@ -203,6 +206,7 @@ export default function Recomendacoes({ onNavegar }: {
   };
 
   const handleDeletar = async (id: number) => {
+    if (!isAdmin) return;
     setLoadingId(id);
     try {
       await RecomendacoesService.deletar(id);
@@ -215,6 +219,7 @@ export default function Recomendacoes({ onNavegar }: {
   };
 
   const handleCriar = (item: Recomendacao) => {
+    if (!isAdmin) return;
     onNavegar("NovoTermo", {
       termo:     item.termo_en,
       traducao:  item.termo_pt,
@@ -290,6 +295,7 @@ export default function Recomendacoes({ onNavegar }: {
               onDeletar={handleDeletar}
               onCriar={handleCriar}
               loadingId={loadingId}
+              isAdmin={isAdmin}
               s={s}
             />
           ))}
